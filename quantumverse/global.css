@@ -12,6 +12,17 @@
   --font-size-lg: clamp(2rem, 2.5vw + 1rem, 2.7rem);
   --font-size-xl: clamp(3rem, 5vw + 1rem, 4.5rem);
   --font-size-xxl: clamp(3.5rem, 7vw + 1rem, 6rem);
+
+    --body-bg-color: #f1fafe;
+    --primary-color: #000;
+    --timeline-gap: 2rem;
+    --timeline-content-gap: 1.5rem;
+    --timeline-entry-bg-color: #ff7eb6;
+    --timeline-entry-padding: 2rem;
+    --timeline-title-font-size: 2rem;
+    --timeline-content-font-size: 1.2rem;
+    --timeline-circle-size: 24px;
+    --timeline-border-width: 5px;
 }
 
 * {
