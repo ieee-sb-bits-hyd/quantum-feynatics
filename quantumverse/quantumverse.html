@@ -1,978 +1,654 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantumverse Vol. 3.0</title>
+  <title>Quantumverse Vol. 3.0 - A New Era</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@800&family=Inter:wght@400;600;800&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap"
     rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="global.css">
-  <style id="sections-styles">
-    /* CSS for section section:header */
-    html {
-      scroll-behavior: smooth;
-    }
 
-    .header-section {
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
+  <!-- Alpine JS for interactivity (corrected order and added defer) -->
+  <script src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    .site-header {
-      padding: 0 30px;
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: rgba(217, 217, 217, 0.1);
-      border-radius: 18px;
-      backdrop-filter: blur(9px);
-      box-shadow: inset -43.59px 43.59px 43.59px 0px rgba(255, 255, 255, 0.1), inset 43.59px -43.59px 43.59px 0px rgba(165, 165, 165, 0.1);
-      padding: 6px 40px;
-      width: 100%;
-      max-width: 1242px;
-      margin: 0 auto;
-    }
-
-    .header-logos {
-      display: flex;
-      align-items: center;
-      gap: 38px;
-    }
-
-    .logo-qfg {
-      width: 215px;
-      height: 83px;
-      object-fit: contain;
-    }
-
-    .logo-ieee {
-      width: 107px;
-      height: 107px;
-      object-fit: contain;
-    }
-
-    .main-nav ul {
-      display: flex;
-      gap: 18px;
-    }
-
-    .main-nav a {
-      color: #fbeded;
+  <!-- Custom Styles and Animations -->
+  <style>
+    body {
       font-family: 'Inter', sans-serif;
-      font-size: 28.8px;
-      line-height: 34.85px;
-      padding: 10px 15px;
-      transition: opacity 0.3s;
+      background-color: #050210;
     }
 
-    .main-nav a:hover {
-      text-shadow: #000000 0px 0px 10px;
+    /* Hide default cursor and apply custom one */
+    body,
+    a,
+    button {
+      cursor: none;
     }
 
-    @media (max-width: 1024px) {
-      .main-nav {
-        display: none;
+    .font-space {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Custom Holo Cursor */
+    .custom-cursor {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: #c084fc;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #c084fc;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+      top: -100px;
+      /* Initially off-screen */
+      left: -100px;
+      /* Initially off-screen */
+    }
+
+    .custom-cursor::before,
+    .custom-cursor::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border: 1px solid #c084fc;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #c084fc, inset 0 0 10px #c084fc;
+    }
+
+    .custom-cursor::before {
+      width: 30px;
+      height: 30px;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      animation: rotate-cursor 4s linear infinite;
+    }
+
+    .custom-cursor::after {
+      width: 50px;
+      height: 50px;
+      border-left-color: transparent;
+      border-right-color: transparent;
+      animation: rotate-cursor 6s linear infinite reverse;
+    }
+
+    @keyframes rotate-cursor {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
       }
 
-      .header-container {
-        justify-content: space-between;
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
       }
     }
 
-    @media (max-width: 768px) {
-      .header-logos {
-        gap: 15px;
-        flex-direction: row;
-        align-items: center;
+    /* Wormhole Stars Background */
+    @keyframes wormhole-zoom {
+      from {
+        transform: scale(0.01) translate(-50%, -50%);
+        opacity: 0;
       }
 
-      .logo-qfg {
-        width: 150px;
-        height: auto;
+      20% {
+        opacity: 1;
       }
 
-      .logo-ieee {
-        width: 60px;
-        height: 60px;
-      }
-
-      .header-container {
-        padding: 10px 20px;
+      to {
+        transform: scale(1.5) translate(-50%, -50%);
+        opacity: 0;
       }
     }
 
-    /* CSS for section section:hero */
-    #section-hero {
-      padding-top: 40px;
-      padding-bottom: 120px;
+    .stars-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -2;
+      overflow: hidden;
+      /* Hide the scaled-up pseudo elements */
     }
 
-    .hero-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+    .stars-bg::before,
+    .stars-bg::after {
+      content: "";
+      position: absolute;
+      /* Center the pseudo-elements for scaling from center */
+      top: 50%;
+      left: 50%;
+      width: 200vw;
+      /* Make them large enough to cover screen when scaled */
+      height: 200vh;
+      transform-origin: 0 0;
+      /* Set origin for correct centering with translate */
+
+      background-repeat: repeat;
+      animation: wormhole-zoom 4s ease-in infinite;
     }
 
-    .hero-content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      flex-shrink: 0;
-      max-width: 700px;
-      z-index: 1;
+    /* Star Layer 1 - More random and dense */
+    .stars-bg::before {
+      background-image:
+        radial-gradient(2.5px 2.5px at 19% 84%, white, transparent),
+        radial-gradient(2px 2px at 89% 23%, white, transparent),
+        radial-gradient(1.5px 1.5px at 34% 45%, white, transparent),
+        radial-gradient(2px 2px at 67% 71%, white, transparent),
+        radial-gradient(2.5px 2.5px at 45% 15%, white, transparent),
+        radial-gradient(1.5px 1.5px at 8% 39%, white, transparent),
+        radial-gradient(2px 2px at 78% 91%, white, transparent),
+        radial-gradient(1.5px 1.5px at 52% 58%, white, transparent),
+        radial-gradient(2px 2px at 23% 8%, white, transparent),
+        radial-gradient(1px 1px at 60% 30%, white, transparent);
+      background-size: 1000px 1000px;
     }
 
-    .hero-title {
-      background: linear-gradient(to right, #00aaa7, #7e42a7, #6600c5, #6070fd, #2a46ff, #0099ff, #008ead);
-      background-size: 200%;
+    /* Star Layer 2 - Even more random, smaller, and delayed */
+    .stars-bg::after {
+      background-image:
+        radial-gradient(1.5px 1.5px at 5% 95%, white, transparent),
+        radial-gradient(1px 1px at 85% 55%, white, transparent),
+        radial-gradient(1.5px 1.5px at 39% 29%, white, transparent),
+        radial-gradient(1px 1px at 65% 5%, white, transparent),
+        radial-gradient(1.5px 1.5px at 15% 75%, white, transparent),
+        radial-gradient(1px 1px at 75% 45%, white, transparent),
+        radial-gradient(1.5px 1.5px at 49% 89%, white, transparent),
+        radial-gradient(1px 1px at 93% 12%, white, transparent),
+        radial-gradient(1px 1px at 25% 61%, white, transparent),
+        radial-gradient(1.5px 1.5px at 59% 41%, white, transparent);
+      background-size: 1400px 1400px;
+      animation-delay: -2s;
+      /* Start halfway through animation */
+    }
+
+    .aurora-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -1;
+      background: radial-gradient(ellipse at 50% 0%, rgba(120, 50, 220, 0.2), transparent 70%);
+      animation: pulse-aurora 10s infinite alternate;
+    }
+
+    @keyframes pulse-aurora {
+      from {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+
+    /* Gradient animation for text */
+    .animated-gradient {
+      background: linear-gradient(to right, #8e2de2, #4a00e0, #00c6ff, #0072ff, #8e2de2);
+      background-size: 300% auto;
       background-clip: text;
       -webkit-background-clip: text;
-      -webkit-text-stroke: 8px transparent;
-      animation: animate-gradient 2.5s linear infinite;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 800;
-      font-size: var(--font-size-xxl);
-      line-height: 1.1;
-      margin-bottom: 40px;
+      -webkit-text-fill-color: transparent;
+      animation: animate-gradient 8s linear infinite;
     }
 
-    .hero-subtitle {
-      color: var(--color-text-dark);
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: var(--font-size-xl);
-      line-height: 1.2;
-      margin-bottom: 16px;
+    @keyframes animate-gradient {
+      to {
+        background-position: 300% center;
+      }
     }
 
-    .hero-date {
-      color: var(--color-text-dark);
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: var(--font-size-md);
-      margin-bottom: 42px;
+    /* Glassmorphism effect */
+    .glass-effect {
+      background: rgba(10, 5, 30, 0.5);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .btn-register {
-      display: inline-block;
-      padding: 18px 45px;
-      background: var(--gradient-button);
-      border: 1px solid var(--color-text-primary);
-      border-radius: 90px;
-      color: var(--color-text-secondary);
-      font-family: 'Inter', sans-serif;
-      font-size: var(--font-size-lg);
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .btn-register:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero-visuals {
-      position: relative;
-      width: 500px;
-      height: 570px;
-      flex-shrink: 0;
-    }
-
-    .hero-visuals-inner {
+    .timeline-path::before {
+      content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      width: 100%;
+      left: 1.25rem;
+      /* Corresponds to pl-10 */
+      width: 2px;
       height: 100%;
-    }
-
-    .deco-img {
-      position: absolute;
-    }
-
-    .deco-cat {
-      width: 246.68px;
-      height: 199.66px;
-      top: 0;
-      left: 250px;
-      transform: rotate(18.97deg);
-    }
-
-    .deco-atom {
-      width: 131.4px;
-      height: 131.4px;
-      top: 64px;
-      left: -46px;
-    }
-
-    .deco-badge {
-      width: 370.8px;
-      height: 370.8px;
-      top: 150px;
-      left: -10px;
-    }
-
-    .deco-entanglement {
-      width: 141.3px;
-      height: 141.3px;
-      top: 416px;
-      left: 300px;
-    }
-
-    @media (max-width: 1200px) {
-      .hero-container {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .hero-content {
-        align-items: center;
-        order: 2;
-        max-width: 100%;
-      }
-
-      .hero-visuals {
-        order: 1;
-        width: 100%;
-        max-width: 450px;
-        height: 400px;
-        margin-bottom: 40px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      #section-hero {
-        padding-bottom: 60px;
-      }
-
-      .hero-visuals {
-        height: 350px;
-      }
-
-      .deco-badge {
-        width: 250px;
-        height: 250px;
-        top: 85px;
-        left: 80px;
-      }
-
-      .deco-cat {
-        top: -10px;
-        width: 200px;
-        height: auto;
-        left: 210px;
-      }
-
-      .deco-entanglement {
-        width: 141.3px;
-        height: 141.3px;
-        top: 250px;
-        left: 250px;
-      }
-
-      .deco-atom {
-        width: 131.4px;
-        height: 131.4px;
-        top: 35px;
-        left: 15px;
-      }
-    }
-
-    @media (max-width: 440px) {
-      .hero-title {
-        font-size: var(--font-size-xl);
-      }
-
-      .hero-subtitle {
-        font-size: var(--font-size-lg);
-      }
-
-  #section-hero {
-    padding-bottom: 30px;
-  }
-
-  .hero-visuals {
-    height: 250px;
-  }
-
-  /* Centered and slightly smaller main badge */
-  .deco-badge {
-    width: 150px;
-    height: 150px;
-    top: 75px;
-    left: 95px; 
-  }
-
-  /* Scaled down and positioned to peek from the top-right */
-  .deco-cat {
-    width: 100px;
-    height: auto;
-    top: 25px;
-    left: 185px;
-  }
-
-  /* Scaled down and positioned in the bottom-right, no longer overflowing */
-  .deco-entanglement {
-    width: 80px;
-    height: 80px;
-    top: 175px;
-    left: 200px;
-  }
-
-  /* Scaled down and positioned in the top-left */
-  .deco-atom {
-    width: 100px;
-    height: 100px;
-    top: 20px;
-    left: 40px;
-  }
-}
-
-    /* CSS for section section:glance */
-    .glance-container {
-      display: flex;
-      align-items: center;
-      gap: 80px;
-    }
-
-    .glance-visuals {
-      position: relative;
-      width: 593px;
-      height: 576px;
-      flex-shrink: 0;
-    }
-
-    .glance-visuals-inner {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .glance-img {
-      position: absolute;
-    }
-
-    .glance-img-4 {
-      width: 189px;
-      height: 189px;
-      top: 1px;
-      left: 22px;
-    }
-
-    .glance-img-1 {
-      width: 361px;
-      height: 361px;
-      top: 9px;
-      left: 202px;
-    }
-
-    .glance-img-2 {
-      width: 322px;
-      height: 322px;
-      top: 158px;
-      left: 0;
-    }
-
-    .glance-img-3 {
-      width: 202px;
-      height: 202px;
-      top: 344px;
-      left: 313px;
-    }
-
-    .glance-content {
-      flex-grow: 1;
-    }
-
-    .glance-title {
-      color: #fffcfc;
-      font-family: 'Inter', sans-serif;
-      font-weight: 800;
-      font-size: var(--font-size-xl);
-      line-height: 1.2;
-      margin-bottom: 30px;
-    }
-
-    .glance-description {
-      color: #fbeded;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: var(--font-size-sm);
-      line-height: 1.6;
-    }
-
-    @media (max-width: 1024px) {
-      .glance-container {
-        flex-direction: column;
-        gap: 40px;
-      }
-
-      .glance-content {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .glance-visuals {
-        width: 100%;
-        max-width: 400px;
-        height: 400px;
-      }
-
-      .glance-img {
-        transform: scale(0.6);
-        transform-origin: top left;
-      }
-
-      .glance-img-1 {
-        width: 550px;
-        height: auto;
-        top: -50px;
-        left: 150px;
-      }
-
-      .glance-img-2 {
-        width: 400px;
-        height: auto;
-        top: 70px;
-        left: 0px;
-      }
-
-      .glance-img-3 {
-        top: 130px;
-        left: 210px;
-      }
-
-      .glance-img-4 {
-        width: 200px;
-        height: auto;
-        top: -25px;
-        left: 25px;
-      }
-    }
-
-    /* CSS for section section:century */
-    .century-container {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .century-content {
-      flex: 1;
-      max-width: 594px;
-    }
-
-    .century-title {
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 800;
-      font-size: var(--font-size-xl);
-      line-height: 1.2;
-      margin-bottom: 40px;
-    }
-
-    .century-description {
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: var(--font-size-md);
-      line-height: 1.4;
-    }
-
-    .century-visual {
-      position: relative;
-      flex: 1;
-      max-width: 556px;
-    }
-
-    .century-image {
-      border-radius: 30px;
-      width: 100%;
-    }
-
-    @media (max-width: 1024px) {
-      .century-container {
-        flex-direction: column;
-        gap: 60px;
-      }
-
-      .century-content {
-        text-align: center;
-        max-width: 100%;
-      }
-    }
-
-    /* CSS for section section:organizers */
-    .organizers-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 80px;
-    }
-
-    .organizers-title {
-      color: #fbeded;
-      font-family: 'Inter', sans-serif;
-      font-weight: 800;
-      font-size: var(--font-size-xl);
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .organizer-item {
-      display: flex;
-      align-items: center;
-      gap: 60px;
-      width: 100%;
-    }
-
-    .organizer-item:nth-child(even) {
-      flex-direction: row-reverse;
-    }
-
-    .organizer-logo-wrapper {
-      position: relative;
-      flex-shrink: 0;
-      width: 458px;
-    }
-
-    .organizer-logo-bg {
-      background-color: #fffbfb;
-      border-radius: 50px;
-      width: 100%;
-      height: 295px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .organizer-logo {
-      max-width: 90%;
-      height: auto;
-      object-fit: contain;
-    }
-
-    .organizer-description {
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      font-size: var(--font-size-sm);
-      line-height: 1.6;
-      text-align: left;
-    }
-
-    @media (max-width: 1024px) {
-
-      .organizer-item,
-      .organizer-item:nth-child(even) {
-        flex-direction: column;
-        gap: 40px;
-      }
-
-      .organizer-description {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .organizer-logo-wrapper {
-        width: 100%;
-        max-width: 400px;
-      }
-
-      .organizer-logo-bg {
-        height: auto;
-        padding: 30px;
-      }
-    }
-
-    /* CSS for section section:timeline */
-    #timeline-section {
-      padding: 4rem 0;
-    }
-    
-    .timeline-title {
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 800;
-      font-size: var(--font-size-xl);
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    /* The container stays positioned for the spine & markers */
-    #timeline {
-      position: relative;
-    }
-
-    /* LIST is the flex column now (restores gap + align-self behaviour) */
-    .timeline-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: var(--timeline-gap);
-    }
-
-    /* centre spine uses token; sits behind markers */
-    #timeline::before {
-      content: "";
-      width: var(--timeline-border-width);
-      height: 100%;
-      position: absolute;
-      left: 50%;
+      background-color: rgba(255, 255, 255, 0.15);
       transform: translateX(-50%);
-      background-color: var(--primary-color);
-      z-index: 0;
     }
 
-    .timeline-entry {
-      display: flex;
-      flex-direction: column;
-      gap: var(--timeline-content-gap);
-      box-sizing: border-box;
-      padding: var(--timeline-entry-padding);
-      background: var(--timeline-entry-bg-color);
-      width: 45%;
-      box-shadow: 0px 15px 30px -25px rgba(0, 0, 0, 0.5);
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     }
 
-    /* marker anchored to #timeline (intentional) */
-    .timeline-entry::after {
-      content: "";
-      width: var(--timeline-circle-size);
-      height: var(--timeline-circle-size);
-      border-radius: 50%;
-      border-width: var(--timeline-border-width);
-      border-style: solid;
-      border-color: var(--primary-color);
-      background: var(--timeline-entry-bg-color);
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1;
-      /* above spine */
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .timeline-entry .title {
-      color: #000000;
-      font-size: var(--timeline-title-font-size);
+    .timeline-gradient-purple {
+      background: linear-gradient(135deg, rgba(138, 46, 226, 0.25) 0%, rgba(10, 5, 30, 0.4) 70%), rgba(10, 5, 30, 0.5);
     }
 
-    .timeline-entry p {
-      color: #000000;
-      font-size: var(--timeline-content-font-size);
+    .timeline-gradient-blue {
+      background: linear-gradient(135deg, rgba(0, 114, 255, 0.25) 0%, rgba(10, 5, 30, 0.4) 70%), rgba(10, 5, 30, 0.5);
     }
 
-    .timeline-entry svg {
-      color: var(--primary-color);
-      order: -1;
-    }
-
-    /* Desktop zig-zag: even items to the right */
-    @media (min-width: 768px) {
-      .timeline-list .timeline-entry:nth-child(even) {
-        align-self: flex-end;
-      }
-    }
-
-    /* Mobile: move spine to start and widen entries */
-    @media (max-width: 767px) {
-      #timeline::before {
-        left: 0;
-        transform: none;
-      }
-
-      .timeline-entry {
-        width: 90%;
-        align-self: flex-end;
-      }
-
-      .timeline-entry::after {
-        left: calc(-1 * ((var(--timeline-circle-size) / 2) + (var(--timeline-border-width) / 2)));
-        transform: none;
-      }
-    }
-
-    /* Accessibility helper for the hidden heading */
-    .visually-hidden {
-      position: absolute !important;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    /* Page Layout/Structure/Resets */
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
-      background-color: var(--body-bg-color);
-      line-height: 1.7;
-      text-wrap: pretty;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin: 0;
-      line-height: 1.2;
-    }
-
-    p {
-      margin: 0;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1280px;
-      margin: 0 auto;
-    }
-
-    div {
-      box-sizing: border-box;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    /* CSS for section section:footer */
-    .footer-section {
-      padding-top: 120px;
-      padding-bottom: 40px;
-    }
-
-    .site-footer p {
-      color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      font-weight: 800;
-      font-size: var(--font-size-sm);
-      line-height: 1.5;
-      text-align: center;
-    }
-
-    @media (max-width: 768px) {
-      .footer-section {
-        padding-top: 60px;
-      }
+    .timeline-gradient-pink {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(10, 5, 30, 0.4) 70%), rgba(10, 5, 30, 0.5);
     }
   </style>
-  <script src="global.js" defer></script>
 </head>
 
-<body>
+<body class="text-gray-200 overflow-x-hidden selection:bg-purple-500 selection:text-white"
+  x-data="{ mobileMenuOpen: false }">
+  <div class="custom-cursor"></div>
+  <div class="stars-bg"></div>
+  <div class="aurora-bg"></div>
 
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <i class='bx bx-x close-icon'></i>
-    </div>
-    <ul class="sidebar-nav">
-      <li><a href="#" class="sidebar-link">Home</a></li>
-      <li><a href="#timeline-section" class="sidebar-link">Timeline</a></li>
-      <li><a href="#" class="sidebar-link">Register</a></li>
-    </ul>
-  </div>
-
-  <section id="section-header" class="header-section">
-    <header class="site-header">
-      <div class="header-container">
-        <div class="header-logos">
-          <a href="#">
-            <img src="./images/39cb41183d59f371684f9426af1a58d0e6767257.png" alt="Quantum Feynatics Group Logo"
-              class="logo-qfg">
+  <!-- Header Section -->
+  <header id="section-header" class="p-4 md:p-5 sticky top-0 z-50">
+    <div class="container mx-auto max-w-7xl">
+      <div class="glass-effect rounded-xl shadow-2xl px-4 sm:px-6 py-3">
+        <div class="flex items-center justify-between">
+          <a href="#" class="flex items-center gap-3">
+            <img src="images/quantum-feynatics-group-high-resolution-logo-white-transparent.png" alt="Q Logo"
+              class="w-auto h-10">
           </a>
-          <a href="#">
-            <img src="./images/1aae28e76930258013f56c7c2bd511fb2a6a9368.png" alt="IEEE BPHC Logo" class="logo-ieee">
-          </a>
-        </div>
-        <nav class="main-nav">
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#timeline-section">Timeline</a></li>
-            <li><a href="#">Register</a></li>
-          </ul>
-        </nav>
-        <div class="menu-icon">
-          <i class='bx bx-menu'></i>
-        </div>
-      </div>
-    </header>
-  </section>
-
-  <section id="section-hero">
-    <div class="container hero-container">
-      <div class="hero-content">
-        <h1 class="hero-title"><span class="gradient">Quantumverse<br>Vol. 3.0</span></h1>
-        <h2 class="hero-subtitle">IBM Qiskit Fallfest 2025</h2>
-        <p class="hero-date">November 7th-9th</p>
-        <a href="#" class="btn-register">Register</a>
-      </div>
-      <div class="hero-visuals">
-        <div class="hero-visuals-inner">
-          <img src="images/1a650a023a48e92c3691008a3041784032482b2b.png" alt="Decorative cat illustration"
-            class="deco-img deco-cat">
-          <img src="images/ab25490bfbf765be5f45e3dadd634e0b4d6e447e.png" alt="Decorative atom illustration"
-            class="deco-img deco-atom">
-          <img src="images/e961a20dba783ad6d1bb8e6f267bdf5716184b8a.png" alt="Qiskit Fall Fest Badge"
-            class="deco-img deco-badge">
-          <img src="images/9a4f6419896f3401dc5ed752ea2b79efc41e5642.png" alt="Decorative entanglement illustration"
-            class="deco-img deco-entanglement">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="section-glance">
-    <div class="container glance-container">
-      <div class="glance-visuals">
-        <div class="glance-visuals-inner">
-          <img src="images/971de3c014a39a1dae5b6e48332684f7c9d8b3c8.png" alt="Timeline illustration 4"
-            class="glance-img glance-img-4">
-          <img src="images/8a6fab9476acde46aae5967476053f78f72e43aa.png" alt="Timeline illustration 1"
-            class="glance-img glance-img-1">
-          <img src="images/6813bfc898804d837c53dc5011c72588d89e56cc.png" alt="Timeline illustration 2"
-            class="glance-img glance-img-2">
-          <img src="images/551df8f44945eef1f8bfafe6a7c26adab66c87be.png" alt="Timeline illustration 3"
-            class="glance-img glance-img-3">
-        </div>
-      </div>
-      <div class="glance-content">
-        <h2 class="glance-title">Fest at a glance</h2>
-        <p class="glance-description">
-          Hosted by the Quantum Feynatics Group of IEEE BITS Hyderabad in collaboration with IBM Quantum,
-          Get ready to dive into the World of Quantum at QuantumVerse Vol. 3: Qiskit Fall Fest 2025, a unique three-day
-          event where cutting-edge quantum computing meets hands-on learning. This immersive workshop and hackathon will
-          explore the latest advancements in the Era of Quantum Utility—where practical quantum applications are
-          becoming a reality.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section id="section-century">
-    <div class="container century-container">
-      <div class="century-content">
-        <h2 class="century-title">Century of Quantum !</h2>
-        <p class="century-description">
-          Celebrating 100 years of quantum : From theory to technology, from curiosity to computation - Step into the
-          future with us at Qiskit Fall Fest!
-        </p>
-      </div>
-      <div class="century-visual">
-        <img src="images/c3cd9ec8e37d6da825eb3879c54da504edbbf34e.png"
-          alt="Full illustration about quantum computing history" class="century-image">
-      </div>
-    </div>
-  </section>
-
-  <section id="section-organizers">
-    <div class="container organizers-container">
-      <h2 class="organizers-title">Organizers</h2>
-      <div class="organizer-item">
-        <div class="organizer-logo-wrapper">
-          <div class="organizer-logo-bg">
-            <img src="images/1820f54c5dc8e534e2ff8887f4a0787a7eaa3dfd.png" alt="Quantum Feynatics Group Logo"
-              class="organizer-logo">
+          <nav class="hidden md:flex">
+            <ul class="flex items-center gap-6 text-base font-medium">
+              <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
+              <li><a href="#section-glance"
+                  class="text-gray-300 hover:text-white transition-colors duration-300">About</a></li>
+              <li><a href="#section-team" class="text-gray-300 hover:text-white transition-colors duration-300">Team</a>
+              </li>
+              <li><a href="#section-timeline"
+                  class="text-gray-300 hover:text-white transition-colors duration-300">Timeline</a></li>
+              <li><a href="#section-contact" class="text-gray-300 hover:text-white transition-colors duration-300">Contact</a></li>
+            </ul>
+          </nav>
+          <div class="flex items-center gap-4">
+            <a href="#"
+              class="bg-white/10 hover:bg-white/20 text-white font-semibold transition-all duration-300 px-6 py-2.5 rounded-lg text-sm">Register</a>
+            <div class="md:hidden">
+              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                  </path>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
-        <p class="organizer-description">
-          Quantum Feynatics Group is dedicated to exploring the fascinating world of quantum technologies. Through
-          events, workshops, and seminars, we aim to make quantum knowledge accessible while building a vibrant
-          community of learners and innovators.
-        </p>
       </div>
-      <div class="organizer-item">
-        <div class="organizer-logo-wrapper">
-          <div class="organizer-logo-bg">
-            <img src="images/70579cf607db3a10013e5539723986f2c713a66d.png" alt="IBM Quantum Logo"
-              class="organizer-logo">
+      <!-- Mobile Menu -->
+      <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
+        class="md:hidden mt-2 glass-effect rounded-xl p-4" x-transition>
+        <ul class="flex flex-col items-center gap-4 font-semibold">
+          <li><a href="#" @click="mobileMenuOpen = false"
+              class="hover:text-purple-400 transition-colors duration-300">Home</a></li>
+          <li><a href="#section-glance" @click="mobileMenuOpen = false"
+              class="hover:text-purple-400 transition-colors duration-300">About</a></li>
+          <li><a href="#section-team" @click="mobileMenuOpen = false"
+              class="hover:text-purple-400 transition-colors duration-300">Team</a></li>
+          <li><a href="#section-timeline" @click="mobileMenuOpen = false"
+              class="hover:text-purple-400 transition-colors duration-300">Timeline</a></li>
+          <li><a href="#section-contact" @click="mobileMenuOpen = false" 
+              class="hover:text-white transition-colors duration-300">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="section-hero" class="pt-20 pb-24 md:pt-28 md:pb-32 px-4 overflow-hidden">
+      <div class="container mx-auto max-w-5xl text-center" x-data="{}"
+        x-intersect.once="document.querySelector('#section-hero > div').classList.add('visible')" class="fade-in-up">
+        <h1 class="font-space font-bold text-4xl sm:text-6xl md:text-7xl lg:text-8xl !leading-tight animated-gradient">
+          Quantumverse
+        </h1>
+        <h1 class="font-space font-bold text-4xl sm:text-6xl md:text-7xl lg:text-8xl !leading-tight animated-gradient">
+          Vol. 3.0
+        </h1>
+        <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold mt-6 text-gray-200">IBM Qiskit Fallfest 2025</h2>
+        <p class="text-lg md:text-xl mt-4 text-gray-400">November 7th-9th // BITS Hyderabad</p>
+        <div class="mt-10">
+          <a href="#"
+            class="text-lg font-bold rounded-lg bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 py-4 px-10 transform hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(138,45,226,0.5)]">
+            Register Now & Dive In
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fest at a Glance Section -->
+    <section id="section-glance" class="py-16 md:py-24 px-4">
+      <div class="container mx-auto max-w-6xl" x-data="{}"
+        x-intersect.once.margin.-100px="document.querySelector('#section-glance > div').classList.add('visible')"
+        class="fade-in-up">
+        <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+          <div class="text-center lg:text-left">
+            <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient">Enter the Era of Quantum
+              Utility.</h2>
+            <p class="mt-6 text-base md:text-lg leading-relaxed text-gray-300">
+              QuantumVerse Vol. 3 is a unique three-day event hosted by the Quantum Feynatics Group and IBM Quantum.
+              This immersive experience, combining a hands-on workshop with a competitive hackathon, is your gateway to
+              the latest advancements where practical quantum applications are finally becoming a reality.
+            </p>
+          </div>
+          <div class="relative h-80 lg:h-96">
+            <div
+              class="absolute w-48 h-48 md:w-60 md:h-60 rounded-full glass-effect top-0 left-10 transition-transform duration-500 animate-[spin_30s_linear_infinite] overflow-hidden">
+              <img src="images/ab25490bfbf765be5f45e3dadd634e0b4d6e447e.png" class="w-full h-full object-cover">
+            </div>
+            <div
+              class="absolute w-72 h-72 md:w-72 md:h-72 rounded-full glass-effect bottom-0 right-10 transition-transform duration-500 hover:rotate-6 hover:scale-110 overflow-hidden">
+              <img src="images/e961a20dba783ad6d1bb8e6f267bdf5716184b8a.png" class="w-full h-full object-cover">
+            </div>
           </div>
         </div>
-        <p class="organizer-description">
-          IBM Quantum is a global leader in advancing quantum computing, developing hardware, software, and tools to
-          make quantum technology accessible worldwide. Through the Qiskit Fall Fest, IBM collaborates with student
-          communities to spark learning, innovation, and hands-on exploration of quantum computing.
+      </div>
+    </section>
+
+    <!-- Century of Quantum Section -->
+    <section id="section-century" class="py-16 md:py-24 px-4">
+      <div class="container mx-auto max-w-6xl" x-data="{}"
+        x-intersect.once.margin.-100px="document.querySelector('#section-century > div').classList.add('visible')"
+        class="fade-in-up">
+        <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+          <div class="century-visual order-last lg:order-first">
+            <img src="images/c3cd9ec8e37d6da825eb3879c54da504edbbf34e.png"
+              alt="Illustration about quantum computing history"
+              class="rounded-2xl shadow-2xl w-full h-auto mx-auto max-w-md lg:max-w-none transition-transform duration-500 hover:scale-105">
+          </div>
+          <div class="text-center lg:text-left">
+            <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient">A Century of Quantum!
+            </h2>
+            <p class="mt-6 text-base md:text-lg font-medium leading-relaxed text-gray-300">
+              From abstract theory to tangible technology, from pure curiosity to powerful computation. Join us at
+              Qiskit Fall Fest to celebrate 100 years of quantum mechanics and be part of the generation that builds its
+              future.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Organizers Section -->
+    <section id="section-organizers" class="py-16 md:py-24 px-4">
+      <div class="container mx-auto max-w-5xl text-center" x-data="{}"
+        x-intersect.once.margin.-100px="document.querySelector('#section-organizers > div').classList.add('visible')"
+        class="fade-in-up">
+        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16">The Minds Behind The
+          Verse</h2>
+        <div class="grid md:grid-cols-2 gap-10">
+          <div
+            class="glass-effect p-8 rounded-2xl text-center transition-all duration-300 hover:border-purple-500/50 hover:-translate-y-1">
+            <img src="images/quantum-feynatics-group-high-resolution-logo-white-transparent.png"
+              alt="Quantum Feynatics Group Logo" class="w-4/5 h-auto mx-auto mb-6">
+            <p class="text-sm leading-relaxed opacity-80">
+              Quantum Feynatics Group is dedicated to exploring the fascinating world of quantum tech. We aim to make
+              quantum knowledge
+              accessible while building a vibrant community of innovators.
+            </p>
+          </div>
+          <div
+            class="glass-effect p-8 rounded-2xl text-center transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-1 flex flex-col justify-center">
+            <img src="images/IBMQUANTUMLOGO.png" alt="IBM Quantum Logo" class="w-5/6 h-auto mx-auto my-auto">
+            <p class="text-sm leading-relaxed opacity-80 mt-6">
+              IBM Quantum is a global leader in advancing quantum computing, making the technology accessible worldwide
+              through hardware, software, and tools like Qiskit.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Members Section -->
+    <section id="section-team" class="py-16 md:py-24 px-4">
+      <div class="container mx-auto max-w-6xl text-center" x-data="{}"
+        x-intersect.once.margin.-100px="document.querySelector('#section-team > div').classList.add('visible')"
+        class="fade-in-up">
+        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16">Meet the Core Team
+        </h2>
+
+        <!-- Lead Organizer -->
+        <div class="mb-16 flex justify-center">
+          <div class="text-center group">
+            <img src="images/Mithil_Astik.jpg" alt="Lead Organizer"
+              class="w-40 h-40 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50 shadow-lg">
+            <h3 class="font-space font-bold text-xl text-white">Mithil Astik</h3>
+            <p class="text-base text-purple-300">Lead Organizer</p>
+          </div>
+        </div>
+
+        <!-- Other Team Members -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/Mansee.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Mansee Sukant Rana</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/pratyush.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Pratyush Jha</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/SreePragnya.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Sree Pragnya Ramachandrula</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/cri.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Cris Varshith Dantham Joseph</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/Anshul-Rath.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Anshul Rath</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/Mandar-Kirkire.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Mandar Kirkire</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/Aaditya-Rajput_edited.jpg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Aaditya Rajput</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+          <!-- Team Member Card -->
+          <div class="text-center group">
+            <img src="images/Rajas-Bamb.jpeg" alt="Team Member"
+              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
+            <h3 class="font-space font-bold text-lg text-white">Rajas Bamb</h3>
+            <p class="text-sm text-purple-300"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Timeline Section -->
+    <section id="section-timeline" class="py-16 md:py-24 px-4">
+      <div class="container mx-auto max-w-4xl" x-data="{}"
+        x-intersect.once.margin.-100px="document.querySelector('#section-timeline > div').classList.add('visible')"
+        class="fade-in-up">
+        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16 text-center">Your
+          Journey Through The Verse</h2>
+        <div x-data="{ openDay: 1 }" class="relative timeline-path pl-10">
+          <!-- Day 1 -->
+          <div class="relative mb-12">
+            <div
+              class="absolute left-0 -translate-x-1/2 mt-2 w-5 h-5 rounded-full bg-purple-500 ring-4 ring-purple-500/30 z-10">
+            </div>
+            <button @click="openDay = (openDay === 1 ? 0 : 1)"
+              class="w-full text-left font-space text-xl md:text-2xl font-bold text-gray-200 hover:text-white transition-colors pl-8"
+              :class="{'text-white': openDay === 1}">DAY 1: Basics of QC</button>
+            <div x-show="openDay === 1" x-transition:enter="transition ease-out duration-500 transform"
+              x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition ease-in duration-300 transform"
+              x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
+              class="mt-4 pl-8 pr-4 overflow-hidden">
+              <div class="p-6 glass-effect timeline-gradient-purple rounded-lg">
+                <ul class="space-y-3">
+                  <li class="flex justify-between items-center"><span
+                      class="font-semibold text-purple-300">Kickoff</span> <span class="text-sm opacity-70">10:30 -
+                      10:45</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Speaker
+                      Session</span> <span class="text-sm opacity-70">11:00 - 12:00</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Q&A</span>
+                    <span class="text-sm opacity-70">12:00 - 12:30</span>
+                  </li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Lunch
+                      Break</span> <span class="text-sm opacity-70">12:30 - 13:30</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Basic
+                      Math</span> <span class="text-sm opacity-70">13:30 - 14:15</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Single/Multi
+                      Qubit Systems</span> <span class="text-sm opacity-70">14:20 - 15:00</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Quantum
+                      Circuits</span> <span class="text-sm opacity-70">15:05 - 15:55</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Qiskit
+                      Basics</span> <span class="text-sm opacity-70">16:00 - 16:30</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Day 2 -->
+          <div class="relative mb-12">
+            <div
+              class="absolute left-0 -translate-x-1/2 mt-2 w-5 h-5 rounded-full bg-blue-500 ring-4 ring-blue-500/30 z-10">
+            </div>
+            <button @click="openDay = (openDay === 2 ? 0 : 2)"
+              class="w-full text-left font-space text-xl md:text-2xl font-bold text-gray-200 hover:text-white transition-colors pl-8"
+              :class="{'text-white': openDay === 2}">DAY 2: Qiskit SDK</button>
+            <div x-show="openDay === 2" x-transition:enter="transition ease-out duration-500 transform"
+              x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition ease-in duration-300 transform"
+              x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
+              class="mt-4 pl-8 pr-4 overflow-hidden">
+              <div class="p-6 glass-effect timeline-gradient-blue rounded-lg">
+                <ul class="space-y-3">
+                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Revision of
+                      Day 1</span> <span class="text-sm opacity-70">10:00 - 10:30</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Qiskit SDK w/
+                      Labs</span> <span class="text-sm opacity-70">10:30 - 13:00</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Lunch
+                      Break</span> <span class="text-sm opacity-70">13:00 - 14:00</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Panel
+                      Discussion</span> <span class="text-sm opacity-70">14:00 - 15:00</span></li>
+                  <li class="flex justify-between items-center"><span
+                      class="font-semibold text-blue-300">Entanglement</span> <span class="text-sm opacity-70">15:00 -
+                      16:30</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Day 3 -->
+          <div class="relative">
+            <div
+              class="absolute left-0 -translate-x-1/2 mt-2 w-5 h-5 rounded-full bg-pink-500 ring-4 ring-pink-500/30 z-10">
+            </div>
+            <button @click="openDay = (openDay === 3 ? 0 : 3)"
+              class="w-full text-left font-space text-xl md:text-2xl font-bold text-gray-200 hover:text-white transition-colors pl-8"
+              :class="{'text-white': openDay === 3}">DAY 3: Hackathon</button>
+            <div x-show="openDay === 3" x-transition:enter="transition ease-out duration-500 transform"
+              x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+              x-transition:leave="transition ease-in duration-300 transform"
+              x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-4"
+              class="mt-4 pl-8 pr-4 overflow-hidden">
+              <div class="p-6 glass-effect timeline-gradient-pink rounded-lg">
+                <ul class="space-y-3">
+                  <li class="flex justify-between items-center"><span class="font-semibold text-pink-300">Revision of
+                      Day 2</span> <span class="text-sm opacity-70">10:00 - 10:30</span></li>
+                  <li class="flex justify-between items-center"><span class="font-semibold text-pink-300">Quantum Error
+                      Correction</span> <span class="text-sm opacity-70">10:30 - 12:00</span></li>
+                  <li class="flex justify-between items-center"><span
+                      class="font-semibold text-pink-300">Hackathon</span> <span class="text-sm opacity-70">13:00 -
+                      17:00</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="section-contact" class="py-16 md:py-24 px-4">
+      <div class="container mx-auto max-w-4xl text-center" x-data="{}"
+        x-intersect.once.margin.-100px="document.querySelector('#section-contact > div').classList.add('visible')"
+        class="fade-in-up">
+        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-8">Get In Touch</h2>
+        <p class="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
+          Have questions or want to get involved? We'd love to hear from you. Reach out to us through any of the channels
+          below.
         </p>
+        <div class="glass-effect rounded-2xl p-8 md:p-12">
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-8 md:gap-16">
+            <!-- Email -->
+            <div class="text-center">
+              <h3 class="font-space font-bold text-xl text-white mb-2">Email Us</h3>
+              <a href="mailto:ieee.sb@hyderabad.bits-pilani.ac.in"
+                class="text-purple-300 hover:text-white transition-colors text-lg">ieee.sb@hyderabad.bits-pilani.ac.in</a>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
+  </main>
+
+  <!-- Footer Section -->
+  <footer id="section-footer" class="py-12 px-4 mt-16 border-t border-white/10">
+    <div class="container mx-auto max-w-7xl text-center text-gray-400">
+      <p class="text-sm">&copy; 2025 Quantum Feynatics, IEEE BPHC. All Rights Reserved.</p>
     </div>
-  </section>
+  </footer>
 
-  <section id="timeline-section">
-    <div class="container">
-      <h2 class="timeline-title">Timeline</h2>
-      <div id="timeline" aria-labelledby="timeline-title">
-        <ol class="timeline-list">
-          <li class="timeline-entry">
-            <h3 class="title">Day 1</h3>
-            <p>We will start off with Basics of Quantum Computing, Python and Qiskit,
-              then move on to the Qiskit SDK.
-            A "Lab 0" notebook will be given to get you familiar with the basics in Python and Qiskit.</p>
-            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40"
-              height="40" fill="currentColor">
-              <path d="M4 2h2v20H4V2zm4 2h12l-4 6 4 6H8V4z" />
-            </svg>
-          </li>
-
-          <li class="timeline-entry">
-            <h3 class="title">Day 2</h3>
-            <p>Continuation to Qiskit SDK and QUantum Entanglement.
-              We will also have an introduction into Quantum Error Correction.
-              Notebooks will be given to test how much you have learned.
-            </p>
-            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40"
-              height="40" fill="currentColor">
-              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 
-                                7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 
-                                1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
-            </svg>
-          </li>
-
-          <li class="timeline-entry">
-            <h3 class="title">Day 3</h3>
-            <p>Completion of Quantum Error Correction,
-              a panel discussion with experts in the field,
-              a keynote speaker session,
-              and a Hackathon to test your skills and win exciting prizes.
-            </p>
-            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-              fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M8.7 16.3 4.4 12l4.3-4.3-1.4-1.4L1.6 12l5.7 5.7 1.4-1.4zm6.6 0 4.3-4.3-4.3-4.3 1.4-1.4 5.7 5.7-5.7 5.7-1.4-1.4z" />
-            </svg>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <section id="section-footer" class="footer-section">
-    <footer class="site-footer">
-      <div class="container">
-        <p>&copy; 2025 Quantum Feynatics, IEEE BPHC.</p>
-      </div>
-    </footer>
-  </section>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cursor = document.querySelector('.custom-cursor');
+      if (cursor) {
+        window.addEventListener('mousemove', (e) => {
+          cursor.style.left = `${e.clientX}px`;
+          cursor.style.top = `${e.clientY}px`;
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
