@@ -1,717 +1,453 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quantumverse Vol. 3.0 - A New Era</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantumverse Vol. 3.0 - A New Era</title>
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap"
-    rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 
-  <!-- Alpine JS for interactivity (corrected order and added defer) -->
-  <script src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <!-- Custom Styles and Animations -->
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #050210;
-    }
-
-    /* Hide default cursor and apply custom one */
-    body,
-    a,
-    button {
-      cursor: none;
-    }
-
-    .font-space {
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    /* Custom Holo Cursor */
-    .custom-cursor {
-      position: fixed;
-      width: 8px;
-      height: 8px;
-      background: #c084fc;
-      border-radius: 50%;
-      box-shadow: 0 0 15px #c084fc;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-      top: -100px;
-      /* Initially off-screen */
-      left: -100px;
-      /* Initially off-screen */
-    }
-
-    .custom-cursor::before,
-    .custom-cursor::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      border: 1px solid #c084fc;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #c084fc, inset 0 0 10px #c084fc;
-    }
-
-    .custom-cursor::before {
-      width: 30px;
-      height: 30px;
-      border-top-color: transparent;
-      border-bottom-color: transparent;
-      animation: rotate-cursor 4s linear infinite;
-    }
-
-    .custom-cursor::after {
-      width: 50px;
-      height: 50px;
-      border-left-color: transparent;
-      border-right-color: transparent;
-      animation: rotate-cursor 6s linear infinite reverse;
-    }
-
-    @keyframes rotate-cursor {
-      from {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-
-      to {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
-    }
-
-    /* Wormhole Stars Background */
-    @keyframes wormhole-zoom {
-      from {
-        transform: scale(0.01) translate(-50%, -50%);
-        opacity: 0;
-      }
-
-      20% {
-        opacity: 1;
-      }
-
-      to {
-        transform: scale(1.5) translate(-50%, -50%);
-        opacity: 0;
-      }
-    }
-
-    .stars-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -2;
-      overflow: hidden;
-    }
-
-    .stars-bg::before,
-    .stars-bg::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 200vw;
-      height: 200vh;
-      transform-origin: 0 0;
-      background-repeat: repeat;
-      animation: wormhole-zoom 4s ease-in infinite;
-    }
-
-    .stars-bg::before {
-      background-image:
-        radial-gradient(circle 8px at 19% 84%, white 15%, transparent 100%),
-        radial-gradient(circle 7px at 89% 23%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 34% 45%, white 15%, transparent 100%),
-        radial-gradient(circle 7px at 67% 71%, white 15%, transparent 100%),
-        radial-gradient(circle 8px at 45% 15%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 8% 39%, white 15%, transparent 100%),
-        radial-gradient(circle 7px at 78% 91%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 52% 58%, white 15%, transparent 100%),
-        radial-gradient(circle 7px at 23% 8%, white 15%, transparent 100%),
-        radial-gradient(circle 5px at 60% 30%, white 15%, transparent 100%);
-      background-size: 1000px 1000px;
-    }
-
-    .stars-bg::after {
-      background-image:
-        radial-gradient(circle 6px at 5% 95%, white 15%, transparent 100%),
-        radial-gradient(circle 5px at 85% 55%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 39% 29%, white 15%, transparent 100%),
-        radial-gradient(circle 5px at 65% 5%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 15% 75%, white 15%, transparent 100%),
-        radial-gradient(circle 5px at 75% 45%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 49% 89%, white 15%, transparent 100%),
-        radial-gradient(circle 5px at 93% 12%, white 15%, transparent 100%),
-        radial-gradient(circle 5px at 25% 61%, white 15%, transparent 100%),
-        radial-gradient(circle 6px at 59% 41%, white 15%, transparent 100%);
-      background-size: 1400px 1400px;
-      animation-delay: -2s;
-    }
-
-    .aurora-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: -1;
-      background: radial-gradient(ellipse at 50% 0%, rgba(120, 50, 220, 0.2), transparent 70%);
-      animation: pulse-aurora 10s infinite alternate;
-    }
-
-    @keyframes pulse-aurora {
-      from {
-        opacity: 0.6;
-        transform: scale(1);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-    }
-
-    .animated-gradient {
-      background: linear-gradient(to right, #8e2de2, #4a00e0, #00c6ff, #0072ff, #8e2de2);
-      background-size: 300% auto;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: animate-gradient 8s linear infinite;
-    }
-
-    @keyframes animate-gradient {
-      to {
-        background-position: 300% center;
-      }
-    }
-
-    .glass-effect {
-      background: rgba(10, 5, 30, 0.5);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .fade-in-up {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .fade-in-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .timeline-gradient-purple {
-      background: linear-gradient(135deg, rgba(138, 46, 226, 0.25) 0%, rgba(10, 5, 30, 0.4) 70%), rgba(10, 5, 30, 0.5);
-    }
-
-    .timeline-gradient-blue {
-      background: linear-gradient(135deg, rgba(0, 114, 255, 0.25) 0%, rgba(10, 5, 30, 0.4) 70%), rgba(10, 5, 30, 0.5);
-    }
-
-    .timeline-gradient-pink {
-      background: linear-gradient(135deg, rgba(236, 72, 153, 0.25) 0%, rgba(10, 5, 30, 0.4) 70%), rgba(10, 5, 30, 0.5);
-    }
-
-    .timeline-content-wrapper {
-      transition: max-height 0.5s ease-in-out;
-      overflow: hidden;
-      max-height: 0;
-    }
-  </style>
 </head>
 
-<body class="text-gray-200 overflow-x-hidden selection:bg-purple-500 selection:text-white"
-  x-data="{ mobileMenuOpen: false }">
-  <div class="custom-cursor"></div>
-  <div class="stars-bg"></div>
-  <div class="aurora-bg"></div>
+<body>
+    <div class="custom-cursor"></div>
+    <div class="stars-bg"></div>
+    <div class="aurora-bg"></div>
 
-  <!-- Header Section -->
-  <header id="section-header" class="p-4 md:p-5 sticky top-0 z-50">
-    <div class="container mx-auto max-w-7xl">
-      <div class="glass-effect rounded-xl shadow-2xl px-4 sm:px-6 py-3">
-        <div class="flex items-center justify-between">
-          <a href="#" class="flex items-center gap-3">
-            <img src="images/quantum-feynatics-group-high-resolution-logo-white-transparent.png" alt="Q Logo"
-              class="w-auto h-10">
-          </a>
-          <nav class="hidden md:flex">
-            <ul class="flex items-center gap-6 text-base font-medium">
-              <li><a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Home</a></li>
-              <li><a href="#section-glance"
-                  class="text-gray-300 hover:text-white transition-colors duration-300">About</a></li>
-              <li><a href="#section-team" class="text-gray-300 hover:text-white transition-colors duration-300">Team</a>
-              </li>
-              <li><a href="#section-timeline"
-                  class="text-gray-300 hover:text-white transition-colors duration-300">Timeline</a></li>
-              <li><a href="#section-contact"
-                  class="text-gray-300 hover:text-white transition-colors duration-300">Contact</a></li>
-            </ul>
-          </nav>
-          <div class="flex items-center gap-4">
-            <a href="#"
-              class="bg-white/10 hover:bg-white/20 text-white font-semibold transition-all duration-300 px-6 py-2.5 rounded-lg text-sm">Register</a>
-            <div class="md:hidden">
-              <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white focus:outline-none">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                  </path>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Mobile Menu -->
-      <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
-        class="md:hidden mt-2 glass-effect rounded-xl p-4" x-transition>
-        <ul class="flex flex-col items-center gap-4 font-semibold">
-          <li><a href="#" @click="mobileMenuOpen = false"
-              class="hover:text-purple-400 transition-colors duration-300">Home</a></li>
-          <li><a href="#section-glance" @click="mobileMenuOpen = false"
-              class="hover:text-purple-400 transition-colors duration-300">About</a></li>
-          <li><a href="#section-team" @click="mobileMenuOpen = false"
-              class="hover:text-purple-400 transition-colors duration-300">Team</a></li>
-          <li><a href="#section-timeline" @click="mobileMenuOpen = false"
-              class="hover:text-purple-400 transition-colors duration-300">Timeline</a></li>
-          <li><a href="#section-contact" @click="mobileMenuOpen = false"
-              class="hover:text-purple-400 transition-colors duration-300">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- Hero Section -->
-    <section id="section-hero" class="pt-20 pb-24 md:pt-28 md:pb-32 px-4 overflow-hidden">
-      <div class="container mx-auto max-w-5xl text-center" x-data="{}"
-        x-intersect.once="document.querySelector('#section-hero > div').classList.add('visible')" class="fade-in-up">
-        <h1 class="font-space font-bold text-4xl sm:text-6xl md:text-7xl lg:text-8xl !leading-tight animated-gradient">
-          Quantumverse Vol. 3.0
-        </h1>
-        <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold mt-6 text-gray-200">IBM Qiskit Fallfest 2025</h2>
-        <p class="text-lg md:text-xl mt-4 text-gray-400">November 7th-9th // BITS Hyderabad</p>
-        <div class="mt-10">
-          <a href="#"
-            class="text-lg font-bold rounded-lg bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 py-4 px-10 transform hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(138,45,226,0.5)]">
-            Register Now & Dive In
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Fest at a Glance Section -->
-    <section id="section-glance" class="py-16 md:py-24 px-4">
-      <div class="container mx-auto max-w-6xl" x-data="{}"
-        x-intersect.once.margin.-100px="document.querySelector('#section-glance > div').classList.add('visible')"
-        class="fade-in-up">
-        <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
-          <div class="text-center lg:text-left">
-            <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient">Enter the Era of Quantum
-              Utility.</h2>
-            <p class="mt-6 text-base md:text-lg leading-relaxed text-gray-300">
-              QuantumVerse Vol. 3 is a unique three-day event hosted by the Quantum Feynatics Group and IBM Quantum.
-              This immersive experience, combining a hands-on workshop with a competitive hackathon, is your gateway to
-              the latest advancements where practical quantum applications are finally becoming a reality.
-            </p>
-          </div>
-          <div class="relative h-80 lg:h-96">
-            <div
-              class="absolute w-48 h-48 md:w-60 md:h-60 rounded-full glass-effect top-0 left-10 transition-transform duration-500 animate-[spin_30s_linear_infinite] overflow-hidden">
-              <img src="images/ab25490bfbf765be5f45e3dadd634e0b4d6e447e.png" class="w-full h-full object-cover">
-            </div>
-            <div
-              class="absolute w-60 h-60 md:w-72 md:h-72 rounded-full glass-effect bottom-0 right-10 transition-transform duration-500 hover:rotate-6 hover:scale-110 overflow-hidden">
-              <img src="images/e961a20dba783ad6d1bb8e6f267bdf5716184b8a.png" class="w-full h-full object-cover">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Century of Quantum Section -->
-    <section id="section-century" class="py-16 md:py-24 px-4">
-      <div class="container mx-auto max-w-6xl" x-data="{}"
-        x-intersect.once.margin.-100px="document.querySelector('#section-century > div').classList.add('visible')"
-        class="fade-in-up">
-        <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
-          <div class="century-visual order-last lg:order-first">
-            <img src="images/c3cd9ec8e37d6da825eb3879c54da504edbbf34e.png"
-              alt="Illustration about quantum computing history"
-              class="rounded-2xl shadow-2xl w-full h-auto mx-auto max-w-md lg:max-w-none transition-transform duration-500 hover:scale-105">
-          </div>
-          <div class="text-center lg:text-left">
-            <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient">A Century of Quantum!
-            </h2>
-            <p class="mt-6 text-base md:text-lg font-medium leading-relaxed text-gray-300">
-              From abstract theory to tangible technology, from pure curiosity to powerful computation. Join us at
-              Qiskit Fall Fest to celebrate 100 years of quantum mechanics and be part of the generation that builds its
-              future.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Organizers Section -->
-    <section id="section-organizers" class="py-16 md:py-24 px-4">
-      <div class="container mx-auto max-w-5xl text-center" x-data="{}"
-        x-intersect.once.margin.-100px="document.querySelector('#section-organizers > div').classList.add('visible')"
-        class="fade-in-up">
-        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16">The Minds Behind The
-          Verse</h2>
-        <div class="grid md:grid-cols-2 gap-10">
-          <div
-            class="glass-effect p-8 rounded-2xl text-center transition-all duration-300 hover:border-purple-500/50 hover:-translate-y-1">
-            <img src="images/quantum-feynatics-group-high-resolution-logo-white-transparent.png"
-              alt="Quantum Feynatics Group Logo" class="w-4/5 h-auto mx-auto mb-6">
-            <p class="text-sm leading-relaxed opacity-80">
-              Quantum Feynatics Group is dedicated to exploring the fascinating world of quantum tech. We aim to make
-              quantum knowledge
-              accessible while building a vibrant community of innovators.
-            </p>
-          </div>
-          <div
-            class="glass-effect p-8 rounded-2xl text-center transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-1 flex flex-col justify-center">
-            <img src="images/IBMQUANTUMLOGO.png" alt="IBM Quantum Logo" class="w-5/6 h-auto mx-auto my-auto">
-            <p class="text-sm leading-relaxed opacity-80 mt-6">
-              IBM Quantum is a global leader in advancing quantum computing, making the technology accessible worldwide
-              through hardware, software, and tools like Qiskit.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Team Members Section -->
-    <section id="section-team" class="py-16 md:py-24 px-4">
-      <div class="container mx-auto max-w-6xl text-center" x-data="{}"
-        x-intersect.once.margin.-100px="document.querySelector('#section-team > div').classList.add('visible')"
-        class="fade-in-up">
-        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16">Meet the Core Team
-        </h2>
-
-        <!-- Lead Organizer -->
-        <div class="mb-16 flex justify-center">
-          <div class="text-center group">
-            <img src="images/Mithil_Astik.jpg" alt="Lead Organizer"
-              class="w-40 h-40 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50 shadow-lg">
-            <h3 class="font-space font-bold text-xl text-white">Mithil Astik</h3>
-            <p class="text-base text-purple-300">Lead Organizer</p>
-          </div>
-        </div>
-
-        <!-- Other Team Members -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/Mansee.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Mansee Sukant Rana</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/pratyush.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Pratyush Jha</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/SreePragnya.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Sree Pragnya Ramachandrula</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/cri.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Cris Varshith Dantham Joseph</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/Anshul-Rath.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Anshul Rath</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/Mandar-Kirkire.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Mandar Kirkire</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/Aaditya-Rajput_edited.jpg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Aaditya Rajput</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-          <!-- Team Member Card -->
-          <div class="text-center group">
-            <img src="images/Rajas-Bamb.jpeg" alt="Team Member"
-              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-white/10 transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500/50">
-            <h3 class="font-space font-bold text-lg text-white">Rajas Bamb</h3>
-            <p class="text-sm text-purple-300"></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Interactive Timeline Section -->
-    <section id="section-timeline" class="py-16 md:py-24 px-4">
-      <div class="container mx-auto max-w-4xl" x-data="{}"
-        x-intersect.once.margin.-100px="document.querySelector('#section-timeline > div').classList.add('visible')"
-        class="fade-in-up">
-        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16 text-center">Your
-          Journey Through The Verse</h2>
-        <div x-data="{ openDay: 1 }" class="space-y-6">
-          <!-- Day 1 Card -->
-          <div class="glass-effect rounded-2xl overflow-hidden timeline-gradient-purple">
-            <button @click="openDay = (openDay === 1 ? 0 : 1)"
-              class="w-full flex justify-between items-center text-left p-6">
-              <span class="font-space text-xl md:text-2xl font-bold text-white">DAY 1</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-300 transition-transform duration-300"
-                :class="{'rotate-180': openDay === 1}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="timeline-content-wrapper"
-              :style="openDay === 1 ? { 'max-height': $el.scrollHeight + 'px' } : {}">
-              <div class="px-6 pb-6">
-                <div class="border-t border-white/10 pt-4">
-                  <ul class="space-y-4">
-                    <!-- Session Item -->
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Kickoff</h3>
-                        <p class="text-sm font-mono text-purple-300">10:30 - 10:45</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">A brief introduction to the workshop's agenda and a high-level overview of quantum computing and its various
-                      applications in science and industry.</p>
-                    </li>
-                    <!-- Session Item -->
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Speaker Session</h3>
-                        <p class="text-sm font-mono text-purple-300">11:00 - 12:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">A potential speaker from IBM will guide participants into the field of quantum computing, offering perspectives on its
-                      present state, recent progress, IBM’s roadmap for developing quantum computers, and the applications where it
-                      outperforms classical approaches. This session will equip participants with a well-rounded understanding of the domain,
-                      spark their interest in the field, and provide an opportunity to have their questions addressed directly.</p>
-                    </li>
-                    <!-- Session Item -->
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Lunch Break</h3>
-                        <p class="text-sm font-mono text-purple-300">12:00 - 13:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1"></p>
-                    </li>
-                    <!-- Session Item -->
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Fundamental of Quantum Computing</h3>
-                        <p class="text-sm font-mono text-purple-300">13:00 - 16:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">This session introduces the fundamental building blocks of quantum computation, covering the necessary mathematical
-                      foundations, single and multi-qubit systems, and the design of quantum circuits. Participants will also be introduced to
-                      IBM’s Quantum Computing SDK, Qiskit, which enables them to code and explore quantum circuits in detail while providing
-                      tools essential for practical quantum computing applications and beyond.</p>
-                    </li>
-                  </ul>
+    <header id="section-header">
+        <div class="container">
+            <div class="header-nav-container glass-effect">
+                <div class="header-content">
+                    <a href="#" class="logo-link">
+                        <img src="images/quantum-feynatics-group-high-resolution-logo-white-transparent.png"
+                            alt="Q Logo" class="logo-img">
+                    </a>
+                    <nav class="desktop-nav">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#section-glance">About</a></li>
+                            <li><a href="#section-team">Team</a>
+                            </li>
+                            <li><a href="#section-timeline">Timeline</a></li>
+                            <li><a href="#section-contact">Contact</a></li>
+                        </ul>
+                    </nav>
+                    <div class="header-actions">
+                        <a href="#" class="register-button-desktop">Register</a>
+                        <div class="mobile-menu-button-container">
+                            <button id="mobile-menu-button">
+                                <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16m-7 6h7">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-
-          <!-- Day 2 Card -->
-          <div class="glass-effect rounded-2xl overflow-hidden timeline-gradient-blue">
-            <button @click="openDay = (openDay === 2 ? 0 : 2)"
-              class="w-full flex justify-between items-center text-left p-6">
-              <span class="font-space text-xl md:text-2xl font-bold text-white">DAY 2</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-300 transition-transform duration-300"
-                :class="{'rotate-180': openDay === 2}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="timeline-content-wrapper"
-              :style="openDay === 2 ? { 'max-height': $el.scrollHeight + 'px' } : {}">
-              <div class="px-6 pb-6">
-                <div class="border-t border-white/10 pt-4">
-                  <ul class="space-y-4">
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Working with Qiskit SDK</h3>
-                        <p class="text-sm font-mono text-blue-300">10:00 - 13:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">A comprehensive, hands-on and theory-guided session on programming with Qiskit, where participants will learn to
-                      construct, simulate, and run quantum circuits on a quantum computer. Key topics include using quantum circuit
-                      simulators, performing circuit measurements with Qiskit Primitives, circuit transpilation, and exploring both IBM’s real
-                      and simulated backends.</p>
-                    </li>
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Lunch Break</h3>
-                        <p class="text-sm font-mono text-blue-300">13:00 - 14:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1"></p>
-                    </li>
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Expert Panel Discussion</h3>
-                        <p class="text-sm font-mono text-blue-300">14:00 - 15:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">A moderated discussion featuring a panel of experts in quantum computing. The discussion will explore current technical
-                      and practical challenges, emerging trends in research and industry, and potential opportunities for innovation and
-                      application. Participants will gain insights from professionals and have the chance to get their questions addressed,
-                      fostering a deeper understanding of the field and its future directions.</p>
-                    </li>
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Understanding Quantum Entanglement</h3>
-                        <p class="text-sm font-mono text-blue-300">15:00 - 16:30</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">This session delves into quantum entanglement, a fundamental principle that sets quantum systems apart from classical
-                      ones. Participants will explore its key properties and learn about various applications that leverage entanglement,
-                      highlighting why quantum algorithms achieve capabilities beyond classical methods.</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div id="mobile-menu" class="mobile-menu glass-effect hidden">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#section-glance">About</a></li>
+                    <li><a href="#section-team">Team</a></li>
+                    <li><a href="#section-timeline">Timeline</a></li>
+                    <li><a href="#section-contact">Contact</a></li>
+                </ul>
             </div>
-          </div>
-
-          <!-- Day 3 Card -->
-          <div class="glass-effect rounded-2xl overflow-hidden timeline-gradient-pink">
-            <button @click="openDay = (openDay === 3 ? 0 : 3)"
-              class="w-full flex justify-between items-center text-left p-6">
-              <span class="font-space text-xl md:text-2xl font-bold text-white">DAY 3</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-300 transition-transform duration-300"
-                :class="{'rotate-180': openDay === 3}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div class="timeline-content-wrapper"
-              :style="openDay === 3 ? { 'max-height': $el.scrollHeight + 'px' } : {}">
-              <div class="px-6 pb-6">
-                <div class="border-t border-white/10 pt-4">
-                  <ul class="space-y-4">
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Introduction to Quantum Error Correction</h3>
-                        <p class="text-sm font-mono text-pink-300">10:00 - 12:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">In the current NISQ (Noisy Intermediate-Scale Quantum) era, quantum computers are highly sensitive to environmental
-                      noise, which can cause errors or decoherence. This session introduces the fundamental concepts of quantum error
-                      correction and the techniques used to protect quantum information in such noisy, intermediate-scale devices.</p>
-                    </li>
-                    <li>
-                      <div class="flex justify-between items-baseline">
-                        <h3 class="font-bold text-lg text-white">Quantum Hackathon</h3>
-                        <p class="text-sm font-mono text-pink-300">13:00 - 17:00</p>
-                      </div>
-                      <p class="text-sm text-gray-400 mt-1">Test your knowledge in a challenging hackathon, applying the concepts and skills you’ve gained throughout the workshop.</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
+    </header>
 
-    <!-- Contact Us Section -->
-    <section id="section-contact" class="py-16 md:py-24 px-4">
-      <div class="container mx-auto max-w-4xl text-center" x-data="{}"
-        x-intersect.once.margin.-100px="document.querySelector('#section-contact > div').classList.add('visible')"
-        class="fade-in-up">
-        <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-8">Get In Touch</h2>
-        <p class="text-lg text-gray-300 mb-12 max-w-2xl mx-auto">
-          Have questions or want to get involved? We'd love to hear from you. Reach out to us through any of the
-          channels below.
-        </p>
-        <div class="glass-effect rounded-2xl p-8 md:p-12">
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-8 md:gap-16">
-            <!-- Email -->
-            <div class="text-center">
-              <h3 class="font-space font-bold text-xl text-white mb-2">Email Us</h3>
-              <a href="mailto:ieee.sb@hyderabad,bits-pilani.ac.in"
-                class="text-purple-300 hover:text-white transition-colors text-lg">ieee.sb@hyderabad,bits-pilani.ac.in</a>
+    <main>
+        <section id="section-hero" class="fade-in-up">
+            <div class="container hero-container">
+                <h1 class="hero-title animated-gradient">
+                    Quantumverse Vol. 3.0
+                </h1>
+                <h2 class="hero-subtitle">IBM Qiskit Fallfest 2025</h2>
+                <p class="hero-date">November 7th-9th // BITS Hyderabad</p>
+                <div class="hero-cta">
+                    <a href="#" class="hero-register-button">
+                        Register Now & Dive In
+                    </a>
+                </div>
             </div>
-            <!-- Socials -->
-            <div class="text-center">
-              <h3 class="font-space font-bold text-xl text-white mb-2">Follow Us</h3>
-              <div class="flex justify-center gap-6 mt-2">
-                <!-- Social Icons -->
-                <a href="https://www.linkedin.com/company/ieee-student-branch-bits-pilani-hyderabad-campus/" class="text-gray-400 hover:text-white transition-colors">
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                      d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                      clip-rule="evenodd" />
-                  </svg>
-                </a>
-                <a href="https://www.instagram.com/ieee.bphc/" class="text-gray-400 hover:text-white transition-colors">
-                  <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.585-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.585-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.585.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z" />
-                  </svg>
-                </a>
-              </div>
+        </section>
+
+        <section id="section-glance" class="fade-in-up">
+            <div class="container section-container">
+                <div class="grid-2-col">
+                    <div class="glance-text">
+                        <h2 class="section-title animated-gradient">Enter the Era of Quantum
+                            Utility.</h2>
+                        <p class="section-paragraph">
+                            QuantumVerse Vol. 3 is a unique three-day event hosted by the Quantum Feynatics Group and
+                            IBM Quantum.
+                            This immersive experience, combining a hands-on workshop with a competitive hackathon, is
+                            your gateway to
+                            the latest advancements where practical quantum applications are finally becoming a reality.
+                        </p>
+                    </div>
+                    <div class="glance-images">
+                        <div class="image-bubble-1 glass-effect">
+                            <img src="images/ab25490bfbf765be5f45e3dadd634e0b4d6e447e.png">
+                        </div>
+                        <div class="image-bubble-2 glass-effect">
+                            <img src="images/e961a20dba783ad6d1bb8e6f267bdf5716184b8a.png">
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+        </section>
+
+        <section id="section-century" class="fade-in-up">
+            <div class="container section-container">
+                <div class="grid-2-col">
+                    <div class="century-visual">
+                        <img src="images/c3cd9ec8e37d6da825eb3879c54da504edbbf34e.png"
+                            alt="Illustration about quantum computing history">
+                    </div>
+                    <div class="century-text">
+                        <h2 class="section-title animated-gradient">A Century of Quantum!
+                        </h2>
+                        <p class="section-paragraph">
+                            From abstract theory to tangible technology, from pure curiosity to powerful computation.
+                            Join us at
+                            Qiskit Fall Fest to celebrate 100 years of quantum mechanics and be part of the generation
+                            that builds its
+                            future.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-organizers" class="fade-in-up">
+            <div class="container text-center max-w-5xl">
+                <h2 class="section-title animated-gradient section-title-margin">The Minds Behind The
+                    Verse</h2>
+                <div class="organizer-grid">
+                    <div class="organizer-card glass-effect">
+                        <img src="images/quantum-feynatics-group-high-resolution-logo-white-transparent.png"
+                            alt="Quantum Feynatics Group Logo">
+                        <p>
+                            Quantum Feynatics Group is dedicated to exploring the fascinating world of quantum tech. We
+                            aim to make
+                            quantum knowledge
+                            accessible while building a vibrant community of innovators.
+                        </p>
+                    </div>
+                    <div class="organizer-card glass-effect">
+                        <img src="images/IBMQUANTUMLOGO.png" alt="IBM Quantum Logo">
+                        <p>
+                            IBM Quantum is a global leader in advancing quantum computing, making the technology
+                            accessible worldwide
+                            through hardware, software, and tools like Qiskit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-team" class="fade-in-up">
+            <div class="container text-center max-w-6xl">
+                <h2 class="section-title animated-gradient section-title-margin">Meet the Core Team
+                </h2>
+
+                <div class="lead-organizer">
+                    <div class="team-member-card">
+                        <img src="images/Mithil_Astik.jpg" alt="Lead Organizer" class="lead-image">
+                        <h3>Mithil Astik</h3>
+                        <p>Lead Organizer</p>
+                    </div>
+                </div>
+
+                <div class="team-grid">
+                    <div class="team-member-card">
+                        <img src="images/Mansee.jpg" alt="Team Member">
+                        <h3>Mansee Sukant Rana</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/pratyush.jpg" alt="Team Member">
+                        <h3>Pratyush Jha</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/SreePragnya.jpg" alt="Team Member">
+                        <h3>Sree Pragnya Ramachandrula</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/cri.jpg" alt="Team Member">
+                        <h3>Cris Varshith Dantham Joseph</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/Anshul-Rath.jpg" alt="Team Member">
+                        <h3>Anshul Rath</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/Mandar-Kirkire.jpg" alt="Team Member">
+                        <h3>Mandar Kirkire</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/Aaditya-Rajput_edited.jpg" alt="Team Member">
+                        <h3>Aaditya Rajput</h3>
+                        <p></p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="images/Rajas-Bamb.jpeg" alt="Team Member">
+                        <h3>Rajas Bamb</h3>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-timeline" class="fade-in-up">
+            <div class="container max-w-4xl">
+                <h2 class="section-title animated-gradient section-title-margin text-center">Your
+                    Journey Through The Verse</h2>
+                <div class="timeline-container">
+                    <div class="timeline-card glass-effect timeline-gradient-purple">
+                        <button class="timeline-button">
+                            <span>DAY 1</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="timeline-arrow" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="timeline-content-wrapper">
+                            <div class="timeline-content">
+                                <ul>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Kickoff</h3>
+                                            <p>10:30 - 10:45</p>
+                                        </div>
+                                        <p class="session-description">A brief introduction to the workshop's agenda and
+                                            a high-level
+                                            overview of quantum computing and its various
+                                            applications in science and industry.</p>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Speaker Session</h3>
+                                            <p>11:00 - 12:00</p>
+                                        </div>
+                                        <p class="session-description">A potential speaker from IBM will guide
+                                            participants into the field
+                                            of quantum computing, offering perspectives on its
+                                            present state, recent progress, IBM’s roadmap for developing quantum
+                                            computers, and the
+                                            applications where it
+                                            outperforms classical approaches. This session will equip participants with
+                                            a well-rounded
+                                            understanding of the domain,
+                                            spark their interest in the field, and provide an opportunity to have their
+                                            questions addressed
+                                            directly.</p>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Lunch Break</h3>
+                                            <p>12:00 - 13:00</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Fundamental of Quantum Computing</h3>
+                                            <p>13:00 - 16:00</p>
+                                        </div>
+                                        <p class="session-description">This session introduces the fundamental building
+                                            blocks of quantum
+                                            computation, covering the necessary mathematical
+                                            foundations, single and multi-qubit systems, and the design of quantum
+                                            circuits. Participants
+                                            will also be introduced to
+                                            IBM’s Quantum Computing SDK, Qiskit, which enables them to code and explore
+                                            quantum circuits in
+                                            detail while providing
+                                            tools essential for practical quantum computing applications and beyond.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card glass-effect timeline-gradient-blue">
+                        <button class="timeline-button">
+                            <span>DAY 2</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="timeline-arrow" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="timeline-content-wrapper">
+                            <div class="timeline-content">
+                                <ul>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Working with Qiskit SDK</h3>
+                                            <p>10:00 - 13:00</p>
+                                        </div>
+                                        <p class="session-description">A comprehensive, hands-on and theory-guided
+                                            session on programming
+                                            with Qiskit, where participants will learn to
+                                            construct, simulate, and run quantum circuits on a quantum computer. Key
+                                            topics include using
+                                            quantum circuit
+                                            simulators, performing circuit measurements with Qiskit Primitives, circuit
+                                            transpilation, and
+                                            exploring both IBM’s real
+                                            and simulated backends.</p>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Lunch Break</h3>
+                                            <p>13:00 - 14:00</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Expert Panel Discussion</h3>
+                                            <p>14:00 - 15:00</p>
+                                        </div>
+                                        <p class="session-description">A moderated discussion featuring a panel of
+                                            experts in quantum
+                                            computing. The discussion will explore current technical
+                                            and practical challenges, emerging trends in research and industry, and
+                                            potential opportunities
+                                            for innovation and
+                                            application. Participants will gain insights from professionals and have the
+                                            chance to get their
+                                            questions addressed,
+                                            fostering a deeper understanding of the field and its future directions.</p>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Understanding Quantum Entanglement</h3>
+                                            <p>15:00 - 16:30</p>
+                                        </div>
+                                        <p class="session-description">This session delves into quantum entanglement, a
+                                            fundamental
+                                            principle that sets quantum systems apart from classical
+                                            ones. Participants will explore its key properties and learn about various
+                                            applications that
+                                            leverage entanglement,
+                                            highlighting why quantum algorithms achieve capabilities beyond classical
+                                            methods.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-card glass-effect timeline-gradient-pink">
+                        <button class="timeline-button">
+                            <span>DAY 3</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="timeline-arrow" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="timeline-content-wrapper">
+                            <div class="timeline-content">
+                                <ul>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Introduction to Quantum Error Correction</h3>
+                                            <p>10:00 - 12:00</p>
+                                        </div>
+                                        <p class="session-description">In the current NISQ (Noisy Intermediate-Scale
+                                            Quantum) era, quantum
+                                            computers are highly sensitive to environmental
+                                            noise, which can cause errors or decoherence. This session introduces the
+                                            fundamental concepts of
+                                            quantum error
+                                            correction and the techniques used to protect quantum information in such
+                                            noisy,
+                                            intermediate-scale devices.</p>
+                                    </li>
+                                    <li>
+                                        <div class="session-header">
+                                            <h3>Quantum Hackathon</h3>
+                                            <p>13:00 - 17:00</p>
+                                        </div>
+                                        <p class="session-description">Test your knowledge in a challenging hackathon,
+                                            applying the concepts
+                                            and skills you’ve gained throughout the workshop.</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="section-contact" class="fade-in-up">
+            <div class="container text-center max-w-4xl">
+                <h2 class="section-title animated-gradient">Get In Touch</h2>
+                <p class="contact-subtitle">
+                    Have questions or want to get involved? We'd love to hear from you. Reach out to us through any of
+                    the
+                    channels below.
+                </p>
+                <div class="contact-card glass-effect">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h3>Email Us</h3>
+                            <a href="mailto:ieee.sb@hyderabad.bits-pilani.ac.in">ieee.sb@hyderabad.bits-pilani.ac.in</a>
+                        </div>
+                        <div class="contact-item">
+                            <h3>Follow Us</h3>
+                            <div class="social-icons">
+                                <a
+                                    href="https://www.linkedin.com/company/ieee-student-branch-bits-pilani-hyderabad-campus/">
+                                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </a>
+                                <a href="https://www.instagram.com/ieee.bphc/">
+                                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.585-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.585-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.585.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="section-footer">
+        <div class="container">
+            <p>&copy; 2025 Quantum Feynatics, IEEE BPHC. All Rights Reserved.</p>
         </div>
-      </div>
-    </section>
+    </footer>
 
-  </main>
-
-  <!-- Footer Section -->
-  <footer id="section-footer" class="py-12 px-4 mt-16 border-t border-white/10">
-    <div class="container mx-auto max-w-7xl text-center text-gray-400">
-      <p class="text-sm">&copy; 2025 Quantum Feynatics, IEEE BPHC. All Rights Reserved.</p>
-    </div>
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cursor = document.querySelector('.custom-cursor');
-      if (cursor) {
-        window.addEventListener('mousemove', (e) => {
-          cursor.style.left = `${e.clientX}px`;
-          cursor.style.top = `${e.clientY}px`;
-        });
-      }
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
