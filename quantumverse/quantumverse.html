@@ -118,27 +118,21 @@
       bottom: 0;
       z-index: -2;
       overflow: hidden;
-      /* Hide the scaled-up pseudo elements */
     }
 
     .stars-bg::before,
     .stars-bg::after {
       content: "";
       position: absolute;
-      /* Center the pseudo-elements for scaling from center */
       top: 50%;
       left: 50%;
       width: 200vw;
-      /* Make them large enough to cover screen when scaled */
       height: 200vh;
       transform-origin: 0 0;
-      /* Set origin for correct centering with translate */
-
       background-repeat: repeat;
       animation: wormhole-zoom 4s ease-in infinite;
     }
 
-    /* Star Layer 1 - More random and dense with a faded glow */
     .stars-bg::before {
       background-image:
         radial-gradient(circle 8px at 19% 84%, white 15%, transparent 100%),
@@ -154,7 +148,6 @@
       background-size: 1000px 1000px;
     }
 
-    /* Star Layer 2 - Even more random, smaller, and delayed with a faded glow */
     .stars-bg::after {
       background-image:
         radial-gradient(circle 6px at 5% 95%, white 15%, transparent 100%),
@@ -169,7 +162,6 @@
         radial-gradient(circle 6px at 59% 41%, white 15%, transparent 100%);
       background-size: 1400px 1400px;
       animation-delay: -2s;
-      /* Start halfway through animation */
     }
 
     .aurora-bg {
@@ -195,7 +187,6 @@
       }
     }
 
-    /* Gradient animation for text */
     .animated-gradient {
       background: linear-gradient(to right, #8e2de2, #4a00e0, #00c6ff, #0072ff, #8e2de2);
       background-size: 300% auto;
@@ -211,24 +202,11 @@
       }
     }
 
-    /* Glassmorphism effect */
     .glass-effect {
       background: rgba(10, 5, 30, 0.5);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .timeline-path::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 1.25rem;
-      /* Corresponds to pl-10 */
-      width: 2px;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.15);
-      transform: translateX(-50%);
     }
 
     .fade-in-up {
@@ -360,11 +338,11 @@
           </div>
           <div class="relative h-80 lg:h-96">
             <div
-              class="absolute w-48 h-48 md:w-60 md:h-60 rounded-full glass-effect top-0 left-10 transition-transform duration-500 animate-[spin_30s_linear_infinite] overflow-hidden">
+              class="absolute w-48 h-48 md:w-60 md:h-60 rounded-full glass-effect top-0 left-10 transition-transform duration-500 hover:scale-110 animate-[spin_30s_linear_infinite] overflow-hidden">
               <img src="images/ab25490bfbf765be5f45e3dadd634e0b4d6e447e.png" class="w-full h-full object-cover">
             </div>
             <div
-              class="absolute w-60 h-60 md:w-72 md:h-72 rounded-full glass-effect bottom-0 right-10 transition-transform duration-500 hover:rotate-6 hover:scale-110 overflow-hidden">
+              class="absolute w-60 h-60 md:w-72 md:h-72 rounded-2xl glass-effect bottom-0 right-10 transition-transform duration-500 hover:rotate-6 animate-[spin_40s_linear_infinite_reverse] overflow-hidden">
               <img src="images/e961a20dba783ad6d1bb8e6f267bdf5716184b8a.png" class="w-full h-full object-cover">
             </div>
           </div>
@@ -513,88 +491,157 @@
         class="fade-in-up">
         <h2 class="font-space text-3xl sm:text-4xl md:text-5xl font-bold animated-gradient mb-16 text-center">Your
           Journey Through The Verse</h2>
-        <div x-data="{ openDay: 1 }" class="relative timeline-path pl-10">
-          <!-- Day 1 -->
-          <div class="relative mb-12">
-            <div
-              class="absolute left-0 -translate-x-1/2 mt-2 w-5 h-5 rounded-full bg-purple-500 ring-4 ring-purple-500/30 z-10">
-            </div>
+        <div x-data="{ openDay: 1 }" class="space-y-6">
+          <!-- Day 1 Card -->
+          <div class="glass-effect rounded-2xl overflow-hidden timeline-gradient-purple">
             <button @click="openDay = (openDay === 1 ? 0 : 1)"
-              class="w-full text-left font-space text-xl md:text-2xl font-bold text-gray-200 hover:text-white transition-colors pl-8"
-              :class="{'text-white': openDay === 1}">DAY 1: Basics of QC</button>
-            <div class="timeline-content-wrapper mt-4 pl-8 pr-4"
+              class="w-full flex justify-between items-center text-left p-6">
+              <span class="font-space text-xl md:text-2xl font-bold text-white">DAY 1</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-300 transition-transform duration-300"
+                :class="{'rotate-180': openDay === 1}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="timeline-content-wrapper"
               :style="openDay === 1 ? { 'max-height': $el.scrollHeight + 'px' } : {}">
-              <div class="p-6 glass-effect timeline-gradient-purple rounded-lg">
-                <ul class="space-y-3">
-                  <li class="flex justify-between items-center"><span
-                      class="font-semibold text-purple-300">Kickoff</span> <span class="text-sm opacity-70">10:30 -
-                      10:45</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Speaker
-                      Session</span> <span class="text-sm opacity-70">11:00 - 12:00</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Q&A</span>
-                    <span class="text-sm opacity-70">12:00 - 12:30</span>
-                  </li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Lunch
-                      Break</span> <span class="text-sm opacity-70">12:30 - 13:30</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Basic
-                      Math</span> <span class="text-sm opacity-70">13:30 - 14:15</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Single/Multi
-                      Qubit Systems</span> <span class="text-sm opacity-70">14:20 - 15:00</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Quantum
-                      Circuits</span> <span class="text-sm opacity-70">15:05 - 15:55</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-purple-300">Qiskit
-                      Basics</span> <span class="text-sm opacity-70">16:00 - 16:30</span></li>
-                </ul>
+              <div class="px-6 pb-6">
+                <div class="border-t border-white/10 pt-4">
+                  <ul class="space-y-4">
+                    <!-- Session Item -->
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Kickoff</h3>
+                        <p class="text-sm font-mono text-purple-300">10:30 - 10:45</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">A brief introduction to the workshop's agenda and a high-level overview of quantum computing and its various
+                      applications in science and industry.</p>
+                    </li>
+                    <!-- Session Item -->
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Speaker Session</h3>
+                        <p class="text-sm font-mono text-purple-300">11:00 - 12:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">A potential speaker from IBM will guide participants into the field of quantum computing, offering perspectives on its
+                      present state, recent progress, IBM’s roadmap for developing quantum computers, and the applications where it
+                      outperforms classical approaches. This session will equip participants with a well-rounded understanding of the domain,
+                      spark their interest in the field, and provide an opportunity to have their questions addressed directly.</p>
+                    </li>
+                    <!-- Session Item -->
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Lunch Break</h3>
+                        <p class="text-sm font-mono text-purple-300">12:00 - 13:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1"></p>
+                    </li>
+                    <!-- Session Item -->
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Fundamental of Quantum Computing</h3>
+                        <p class="text-sm font-mono text-purple-300">13:00 - 16:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">This session introduces the fundamental building blocks of quantum computation, covering the necessary mathematical
+                      foundations, single and multi-qubit systems, and the design of quantum circuits. Participants will also be introduced to
+                      IBM’s Quantum Computing SDK, Qiskit, which enables them to code and explore quantum circuits in detail while providing
+                      tools essential for practical quantum computing applications and beyond.</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-          <!-- Day 2 -->
-          <div class="relative mb-12">
-            <div
-              class="absolute left-0 -translate-x-1/2 mt-2 w-5 h-5 rounded-full bg-blue-500 ring-4 ring-blue-500/30 z-10">
-            </div>
+
+          <!-- Day 2 Card -->
+          <div class="glass-effect rounded-2xl overflow-hidden timeline-gradient-blue">
             <button @click="openDay = (openDay === 2 ? 0 : 2)"
-              class="w-full text-left font-space text-xl md:text-2xl font-bold text-gray-200 hover:text-white transition-colors pl-8"
-              :class="{'text-white': openDay === 2}">DAY 2: Qiskit SDK</button>
-            <div class="timeline-content-wrapper mt-4 pl-8 pr-4"
+              class="w-full flex justify-between items-center text-left p-6">
+              <span class="font-space text-xl md:text-2xl font-bold text-white">DAY 2</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-300 transition-transform duration-300"
+                :class="{'rotate-180': openDay === 2}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="timeline-content-wrapper"
               :style="openDay === 2 ? { 'max-height': $el.scrollHeight + 'px' } : {}">
-              <div class="p-6 glass-effect timeline-gradient-blue rounded-lg">
-                <ul class="space-y-3">
-                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Revision of
-                      Day 1</span> <span class="text-sm opacity-70">10:00 - 10:30</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Qiskit SDK w/
-                      Labs</span> <span class="text-sm opacity-70">10:30 - 13:00</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Lunch
-                      Break</span> <span class="text-sm opacity-70">13:00 - 14:00</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-blue-300">Panel
-                      Discussion</span> <span class="text-sm opacity-70">14:00 - 15:00</span></li>
-                  <li class="flex justify-between items-center"><span
-                      class="font-semibold text-blue-300">Entanglement</span> <span class="text-sm opacity-70">15:00 -
-                      16:30</span></li>
-                </ul>
+              <div class="px-6 pb-6">
+                <div class="border-t border-white/10 pt-4">
+                  <ul class="space-y-4">
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Working with Qiskit SDK</h3>
+                        <p class="text-sm font-mono text-blue-300">10:00 - 13:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">A comprehensive, hands-on and theory-guided session on programming with Qiskit, where participants will learn to
+                      construct, simulate, and run quantum circuits on a quantum computer. Key topics include using quantum circuit
+                      simulators, performing circuit measurements with Qiskit Primitives, circuit transpilation, and exploring both IBM’s real
+                      and simulated backends.</p>
+                    </li>
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Lunch Break</h3>
+                        <p class="text-sm font-mono text-blue-300">13:00 - 14:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1"></p>
+                    </li>
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Expert Panel Discussion</h3>
+                        <p class="text-sm font-mono text-blue-300">14:00 - 15:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">A moderated discussion featuring a panel of experts in quantum computing. The discussion will explore current technical
+                      and practical challenges, emerging trends in research and industry, and potential opportunities for innovation and
+                      application. Participants will gain insights from professionals and have the chance to get their questions addressed,
+                      fostering a deeper understanding of the field and its future directions.</p>
+                    </li>
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Understanding Quantum Entanglement</h3>
+                        <p class="text-sm font-mono text-blue-300">15:00 - 16:30</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">This session delves into quantum entanglement, a fundamental principle that sets quantum systems apart from classical
+                      ones. Participants will explore its key properties and learn about various applications that leverage entanglement,
+                      highlighting why quantum algorithms achieve capabilities beyond classical methods.</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-          <!-- Day 3 -->
-          <div class="relative">
-            <div
-              class="absolute left-0 -translate-x-1/2 mt-2 w-5 h-5 rounded-full bg-pink-500 ring-4 ring-pink-500/30 z-10">
-            </div>
+
+          <!-- Day 3 Card -->
+          <div class="glass-effect rounded-2xl overflow-hidden timeline-gradient-pink">
             <button @click="openDay = (openDay === 3 ? 0 : 3)"
-              class="w-full text-left font-space text-xl md:text-2xl font-bold text-gray-200 hover:text-white transition-colors pl-8"
-              :class="{'text-white': openDay === 3}">DAY 3: Hackathon</button>
-            <div class="timeline-content-wrapper mt-4 pl-8 pr-4"
+              class="w-full flex justify-between items-center text-left p-6">
+              <span class="font-space text-xl md:text-2xl font-bold text-white">DAY 3</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-300 transition-transform duration-300"
+                :class="{'rotate-180': openDay === 3}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div class="timeline-content-wrapper"
               :style="openDay === 3 ? { 'max-height': $el.scrollHeight + 'px' } : {}">
-              <div class="p-6 glass-effect timeline-gradient-pink rounded-lg">
-                <ul class="space-y-3">
-                  <li class="flex justify-between items-center"><span class="font-semibold text-pink-300">Revision of
-                      Day 2</span> <span class="text-sm opacity-70">10:00 - 10:30</span></li>
-                  <li class="flex justify-between items-center"><span class="font-semibold text-pink-300">Quantum Error
-                      Correction</span> <span class="text-sm opacity-70">10:30 - 12:00</span></li>
-                  <li class="flex justify-between items-center"><span
-                      class="font-semibold text-pink-300">Hackathon</span> <span class="text-sm opacity-70">13:00 -
-                      17:00</span></li>
-                </ul>
+              <div class="px-6 pb-6">
+                <div class="border-t border-white/10 pt-4">
+                  <ul class="space-y-4">
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Introduction to Quantum Error Correction</h3>
+                        <p class="text-sm font-mono text-pink-300">10:00 - 12:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">In the current NISQ (Noisy Intermediate-Scale Quantum) era, quantum computers are highly sensitive to environmental
+                      noise, which can cause errors or decoherence. This session introduces the fundamental concepts of quantum error
+                      correction and the techniques used to protect quantum information in such noisy, intermediate-scale devices.</p>
+                    </li>
+                    <li>
+                      <div class="flex justify-between items-baseline">
+                        <h3 class="font-bold text-lg text-white">Quantum Hackathon</h3>
+                        <p class="text-sm font-mono text-pink-300">13:00 - 17:00</p>
+                      </div>
+                      <p class="text-sm text-gray-400 mt-1">Test your knowledge in a challenging hackathon, applying the concepts and skills you’ve gained throughout the workshop.</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -617,8 +664,8 @@
             <!-- Email -->
             <div class="text-center">
               <h3 class="font-space font-bold text-xl text-white mb-2">Email Us</h3>
-              <a href="mailto:contact@qfg.com"
-                class="text-purple-300 hover:text-white transition-colors text-lg">ieee.sb@hyderabad.bits-pilani.ac.in</a>
+              <a href="mailto:ieee.sb@hyderabad,bits-pilani.ac.in"
+                class="text-purple-300 hover:text-white transition-colors text-lg">ieee.sb@hyderabad,bits-pilani.ac.in</a>
             </div>
             <!-- Socials -->
             <div class="text-center">
