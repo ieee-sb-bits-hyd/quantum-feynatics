@@ -16,6 +16,13 @@
     --color-blue-dark: #4a00e0;
 }
 
+/* Universal box-sizing for predictable layouts */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -24,9 +31,12 @@ body {
     font-family: var(--font-inter);
     background-color: var(--color-bg);
     color: var(--color-text-light);
+    /* This is a final failsafe to prevent any horizontal scrolling */
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    /* Prevents long text strings from causing overflow */
+    overflow-wrap: break-word;
 }
 
 /* Custom Selection */
@@ -51,6 +61,14 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+/* All images are responsive by default */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    /* Removes bottom space under images */
 }
 
 .container {
@@ -483,15 +501,15 @@ section {
     width: 12rem;
     height: 12rem;
     top: 0;
-    left: 8rem;
-    animation: spin 20s linear infinite;
+    left: 2.5rem;
+    animation: spin 30s linear infinite;
 }
 
 .image-bubble-2 {
     width: 15rem;
     height: 15rem;
     bottom: 0;
-    right: 8rem;
+    right: 2.5rem;
 }
 
 .image-bubble-1 img,
@@ -510,7 +528,6 @@ section {
     border-radius: 1rem;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     width: 100%;
-    height: auto;
     max-width: 28rem;
     margin: auto;
     transition: transform 0.5s;
@@ -552,7 +569,6 @@ section {
 }
 
 .organizer-card img {
-    height: auto;
     margin: auto;
 }
 
@@ -735,6 +751,8 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    gap: 1rem;
+    /* Added gap for better spacing */
 }
 
 .session-header h3 {
@@ -746,6 +764,8 @@ section {
 .session-header p {
     font-size: 0.875rem;
     font-family: 'Courier New', Courier, monospace;
+    flex-shrink: 0;
+    /* Prevents time from wrapping */
 }
 
 .timeline-gradient-purple .session-header p {
