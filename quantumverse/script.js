@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Sticky Header Offset for Announcement Bar ---
+    const announcementBar = document.getElementById('announcement-bar');
+    if (announcementBar) {
+        const barHeight = announcementBar.offsetHeight;
+        document.body.style.paddingTop = `${barHeight}px`;
+    }
+
     // --- Custom Holo Cursor ---
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {

@@ -154,6 +154,25 @@ img {
     }
 }
 
+/* --- Announcement Bar --- */
+#announcement-bar {
+    background-image: linear-gradient(to right, var(--color-purple-dark), var(--color-blue-dark));
+    padding: 0.75rem 1rem;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#announcement-bar p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+}
+
 .stars-bg {
     position: fixed;
     top: 0;
