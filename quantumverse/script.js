@@ -6,14 +6,94 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.paddingTop = `${barHeight}px`;
     }
 
-    // --- Custom Holo Cursor ---
+    // --- Custom Paint Blob Cursor ---
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
-        window.addEventListener('mousemove', (e) => {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-        });
+        // We only run this on devices that can hover (non-touch)
+        const isHoverDevice = window.matchMedia("(hover: hover)").matches;
+
+        if (isHoverDevice) {
+            let currentX = window.innerWidth / 2;
+            let currentY = window.innerHeight / 2;
+            let lagX = currentX;
+            let lagY = currentY;
+            let lastX = lagX;
+            let lastY = lagY;
+            let velX = 0;
+            let velY = 0;
+            let speed = 0;
+            let angle = 0;
+            let scale = 1;
+            let moveTimer = null;
+
+            // 1. Update target position on mousemove
+            window.addEventListener('mousemove', (e) => {
+                currentX = e.clientX;
+                currentY = e.clientY;
+
+                // Set a timer to detect when the mouse stops
+                clearTimeout(moveTimer);
+                moveTimer = setTimeout(() => {
+                    speed = 0; // Force speed to 0 when mouse stops
+                }, 100);
+            });
+
+            // 2. Render loop for smooth animation
+            function renderLoop() {
+                // Calculate lag position (this creates the tracking)
+                // The 0.2 is the "lag" factor. Smaller = more lag.
+                lagX += (currentX - lagX) * 0.2;
+                lagY += (currentY - lagY) * 0.2;
+
+                // Calculate velocity (difference from last frame's lag position)
+                velX = lagX - lastX;
+                velY = lagY - lastY;
+
+                // Calculate speed and angle
+                speed = Math.sqrt(velX ** 2 + velY ** 2);
+                angle = Math.atan2(velY, velX) * (180 / Math.PI);
+
+                // Calculate scale based on speed
+                // It will stretch from 1x up to a max of 2.5x
+                let targetScale = 1 + Math.min(speed / 15, 1.5);
+
+                // Smoothly transition the scale
+                scale += (targetScale - scale) * 0.3;
+
+                // Squash the Y scale as X scale grows, but not fully
+                let scaleY = 1 / (scale * 0.5 + 0.5);
+
+                // Apply all styles
+                cursor.style.left = `${lagX}px`;
+                cursor.style.top = `${lagY}px`;
+                cursor.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scaleX(${scale}) scaleY(${scaleY})`;
+
+                // Manage animation: Stop morphing when streaking
+                if (speed > 1) {
+                    cursor.style.animation = 'none';
+                    cursor.style.borderRadius = '50px'; // Force capsule shape
+                } else {
+                    cursor.style.animation = 'morph-blob 8s ease-in-out infinite';
+                    cursor.style.borderRadius = ''; // Let animation control radius
+                }
+
+                // Store last position for next frame's velocity calculation
+                lastX = lagX;
+                lastY = lagY;
+
+                requestAnimationFrame(renderLoop);
+            }
+
+            renderLoop();
+
+        } else {
+            // On touch devices, hide the custom cursor
+            if (cursor) {
+                cursor.style.display = 'none';
+            }
+        }
     }
+
 
     // --- Mobile Menu Toggle ---
     const menuButton = document.getElementById('mobile-menu-button');
