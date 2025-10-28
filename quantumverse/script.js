@@ -1,15 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Sticky Header Offset for Announcement Bar ---
-    const announcementBar = document.getElementById('announcement-bar');
-    if (announcementBar) {
-        const barHeight = announcementBar.offsetHeight;
-        document.body.style.paddingTop = `${barHeight}px`;
-    }
 
-    // --- Custom Paint Blob Cursor ---
+    // --- OPTIMIZATION: Removed sticky header offset. ---
+    // This is now handled by CSS variables (var(--announcement-bar-height))
+    // which prevents a flash of layout recalculation (layout shift) on page load.
+    // const announcementBar = document.getElementById('announcement-bar');
+    // if (announcementBar) {
+    //     const barHeight = announcementBar.offsetHeight;
+    //     document.body.style.paddingTop = `${barHeight}px`;
+    // }
+
+    // --- Custom Paint Blob Cursor (Heavily Optimized) ---
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
-        // We only run this on devices that can hover (non-touch)
         const isHoverDevice = window.matchMedia("(hover: hover)").matches;
 
         if (isHoverDevice) {
@@ -26,26 +28,25 @@ document.addEventListener('DOMContentLoaded', () => {
             let scale = 1;
             let moveTimer = null;
 
-            // 1. Update target position on mousemove
+            // --- OPTIMIZATION: State variable to avoid thrashing CSS classes ---
+            let isStreaking = false;
+
             window.addEventListener('mousemove', (e) => {
                 currentX = e.clientX;
                 currentY = e.clientY;
 
-                // Set a timer to detect when the mouse stops
                 clearTimeout(moveTimer);
                 moveTimer = setTimeout(() => {
-                    speed = 0; // Force speed to 0 when mouse stops
+                    speed = 0;
                 }, 100);
             });
 
-            // 2. Render loop for smooth animation
             function renderLoop() {
-                // Calculate lag position (this creates the tracking)
-                // The 0.2 is the "lag" factor. Smaller = more lag.
+                // Calculate lag position
                 lagX += (currentX - lagX) * 0.2;
                 lagY += (currentY - lagY) * 0.2;
 
-                // Calculate velocity (difference from last frame's lag position)
+                // Calculate velocity
                 velX = lagX - lastX;
                 velY = lagY - lastY;
 
@@ -53,31 +54,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 speed = Math.sqrt(velX ** 2 + velY ** 2);
                 angle = Math.atan2(velY, velX) * (180 / Math.PI);
 
-                // Calculate scale based on speed
-                // It will stretch from 1x up to a max of 2.5x
+                // Calculate scale
                 let targetScale = 1 + Math.min(speed / 15, 1.5);
-
-                // Smoothly transition the scale
                 scale += (targetScale - scale) * 0.3;
-
-                // Squash the Y scale as X scale grows, but not fully
                 let scaleY = 1 / (scale * 0.5 + 0.5);
 
-                // Apply all styles
-                cursor.style.left = `${lagX}px`;
-                cursor.style.top = `${lagY}px`;
-                cursor.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scaleX(${scale}) scaleY(${scaleY})`;
+                // --- OPTIMIZATION: ONLY update transform. This is very fast. ---
+                cursor.style.transform = `translate(${lagX}px, ${lagY}px) translate(-50%, -50%) rotate(${angle}deg) scaleX(${scale}) scaleY(${scaleY})`;
 
-                // Manage animation: Stop morphing when streaking
-                if (speed > 1) {
-                    cursor.style.animation = 'none';
-                    cursor.style.borderRadius = '50px'; // Force capsule shape
-                } else {
-                    cursor.style.animation = 'morph-blob 8s ease-in-out infinite';
-                    cursor.style.borderRadius = ''; // Let animation control radius
+                // --- OPTIMIZATION: Toggle class ONLY when state changes. ---
+                // This stops changing styles/animations on every single frame.
+                if (speed > 1 && !isStreaking) {
+                    cursor.classList.add('streaking');
+                    isStreaking = true;
+                } else if (speed <= 1 && isStreaking) {
+                    cursor.classList.remove('streaking');
+                    isStreaking = false;
                 }
 
-                // Store last position for next frame's velocity calculation
+                // Store last position
                 lastX = lagX;
                 lastY = lagY;
 
@@ -87,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderLoop();
 
         } else {
-            // On touch devices, hide the custom cursor
             if (cursor) {
                 cursor.style.display = 'none';
             }
@@ -96,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Mobile Menu Toggle ---
+    // This code is already efficient. No changes needed.
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileMenuLinks = mobileMenu.querySelectorAll('a');
@@ -105,14 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Close menu when a link is clicked
         mobileMenuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', (event) => {
             const isClickInsideMenu = mobileMenu.contains(event.target);
             const isClickOnButton = menuButton.contains(event.target);
@@ -123,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- Interactive Timeline (Accordion) ---
+    // --- Interactive Timeline (Accordion) (Optimized) ---
     const timelineButtons = document.querySelectorAll('.timeline-button');
 
     timelineButtons.forEach(button => {
@@ -135,22 +128,26 @@ document.addEventListener('DOMContentLoaded', () => {
             timelineButtons.forEach(otherButton => {
                 if (otherButton !== button) {
                     otherButton.removeAttribute('aria-expanded');
-                    otherButton.nextElementSibling.style.maxHeight = null;
+                    // --- OPTIMIZATION: Use grid-template-rows ---
+                    otherButton.nextElementSibling.style.gridTemplateRows = '0fr';
                 }
             });
 
             // Open or close the clicked accordion
             if (isOpening) {
                 button.setAttribute('aria-expanded', 'true');
-                contentWrapper.style.maxHeight = contentWrapper.scrollHeight + 'px';
+                // --- OPTIMIZATION: Use grid-template-rows ---
+                contentWrapper.style.gridTemplateRows = '1fr';
             } else {
                 button.removeAttribute('aria-expanded');
-                contentWrapper.style.maxHeight = null;
+                // --- OPTIMIZATION: Use grid-template-rows ---
+                contentWrapper.style.gridTemplateRows = '0fr';
             }
         });
     });
 
     // --- Scroll Fade-in Animations using Intersection Observer ---
+    // This is already the most performant way to handle scroll animations. No changes.
     const fadeElements = document.querySelectorAll('.fade-in-up');
 
     const observerOptions = {
