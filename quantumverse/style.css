@@ -763,6 +763,57 @@ section {
     font-size: 0.875rem;
 }
 
+/* --- Sponsors Section (NEW) --- */
+/* This section reuses .organizer-grid and .organizer-card */
+.sponsor-name {
+    font-family: var(--font-space);
+    font-weight: 700;
+    font-size: 2.25rem;
+    color: var(--color-text-light);
+    background: linear-gradient(to right, var(--color-purple-light), var(--color-blue-medium));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- NEW STYLES FOR SINGLE SPONSOR --- */
+.sponsor-grid-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+.sponsor-grid-wrapper>.organizer-card {
+    max-width: 42rem;
+    /* Constrain width for a single card */
+    width: 100%;
+}
+
+.sponsor-card-light {
+    /* New light gradient background */
+    background: linear-gradient(to right, #e9d5ff, #dbeafe);
+    /* light-purple to light-blue */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sponsor-card-light p {
+    /* Override default light text */
+    color: #374151;
+    /* gray-700 */
+    opacity: 1;
+}
+
+.sponsor-card-light .sponsor-name {
+    /* Override light gradient text with a dark one */
+    background: linear-gradient(to right, var(--color-purple-dark), var(--color-blue-dark));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- END NEW SPONSOR STYLES --- */
+
+
 /* --- Timeline Section --- */
 .timeline-container {
     display: flex;
