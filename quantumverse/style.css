@@ -1287,3 +1287,157 @@ section {
 .info-list-hackathon {
     list-style-type: '🚀 ';
 }
+
+/* --- Speaker Section (NEW) --- */
+#section-speakers .speaker-section-title {
+    font-family: var(--font-space);
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--color-text-light);
+    margin-bottom: 2.5rem;
+    margin-top: 4rem;
+    /* Spacing between keynote and panel */
+}
+
+#section-speakers .speaker-keynote .speaker-section-title {
+    margin-top: 0;
+}
+
+.speaker-keynote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the card */
+    margin-bottom: 3rem;
+}
+
+.speaker-keynote .speaker-card {
+    max-width: 48rem;
+    /* Make keynote card wider */
+    width: 100%;
+}
+
+.speaker-card {
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+    /* --- OPTIMIZATION: Hint browser that this will transform --- */
+    will-change: transform;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.speaker-card:hover {
+    transform: translateY(-0.25rem);
+    border-color: rgba(168, 85, 247, 0.5);
+    /* purple hover */
+}
+
+.speaker-card img {
+    object-fit: cover;
+    border-radius: 9999px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    width: 10rem;
+    height: 10rem;
+}
+
+.speaker-card:hover img {
+    border-color: rgba(168, 85, 247, 0.5);
+}
+
+.speaker-card h3 {
+    font-family: var(--font-space);
+    font-weight: 700;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.speaker-card .speaker-title {
+    color: #d8b4fe;
+    /* purple-300 */
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.speaker-card .speaker-description {
+    font-size: 0.95rem;
+    line-height: 1.625;
+    color: var(--color-text-medium);
+    max-width: 42rem;
+    /* Constrain line length */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.speaker-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Stack on mobile */
+    gap: 2.5rem;
+}
+
+/* --- Media Queries for Speaker Section --- */
+@media (min-width: 768px) {
+    .speaker-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #section-speakers .speaker-section-title {
+        font-size: 2.25rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    /*
+    .speaker-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    REMOVED this rule so it defaults to 2-col from 'md' media query
+    */
+
+    .speaker-keynote .speaker-card {
+        /* On large screens, make keynote card layout horizontal */
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        /* Image width + gap + text */
+        gap: 2rem;
+        text-align: left;
+        /* Align text left */
+        align-items: center;
+    }
+
+    .speaker-keynote .speaker-card img {
+        margin: 0;
+        /* Reset margin */
+        width: 10rem;
+        /* 160px */
+        height: 10rem;
+    }
+
+    .speaker-keynote .speaker-card h3,
+    .speaker-keynote .speaker-card .speaker-title,
+    .speaker-keynote .speaker-card .speaker-description {
+        margin: 0;
+        /* Reset margins */
+    }
+
+    .speaker-keynote .speaker-card h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .speaker-keynote .speaker-card .speaker-title {
+        margin-bottom: 1rem;
+    }
+
+    .speaker-keynote .speaker-card .speaker-description {
+        max-width: none;
+        /* Remove width constraint */
+    }
+}
